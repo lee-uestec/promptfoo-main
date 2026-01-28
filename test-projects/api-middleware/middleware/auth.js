@@ -111,12 +111,47 @@ function hasPermission(user, requiredPermissions) {
     return false;
   }
 
+  // 超级管理员拥有所有权限
+  if (user.roles && user.roles.includes('superadmin')) {
+    return true;
+  }
+
   const permissions = Array.isArray(requiredPermissions)
     ? requiredPermissions
     : [requiredPermissions];
 
-  // 检查用户是否拥有所有必需的权限
+  // 检查用户是否拥有所有必需的权限(AND 逻辑)
   return permissions.every(permission =>
+    user.permissions.includes(permission)
+  );
+}
+
+/**
+ * 检查用户是否有所需的权限(任一权限)
+ * @param {Object} user - 用户对象
+ * @param {Array|string} requiredPermissions - 所需权限（数组或单个字符串）
+ * @returns {boolean} 是否有权限
+ */
+function hasAnyPermission(user, requiredPermissions) {
+  if (!requiredPermissions) {
+    return true;
+  }
+
+  if (!user || !user.permissions || !Array.isArray(user.permissions)) {
+    return false;
+  }
+
+  // 超级管理员拥有所有权限
+  if (user.roles && user.roles.includes('superadmin')) {
+    return true;
+  }
+
+  const permissions = Array.isArray(requiredPermissions)
+    ? requiredPermissions
+    : [requiredPermissions];
+
+  // 检查用户是否拥有任一必需的权限(OR 逻辑)
+  return permissions.some(permission =>
     user.permissions.includes(permission)
   );
 }
@@ -145,6 +180,26 @@ function hasRole(user, requiredRoles) {
 }
 
 /**
+ * 检查路径是否需要跳过认证
+ * @param {string} path - 请求路径
+ * @param {Array} skipPaths - 跳过路径列表
+ * @returns {boolean} 是否需要跳过
+ */
+function shouldSkipAuth(path, skipPaths) {
+  return skipPaths.some(skipPath => {
+    if (typeof skipPath === 'string') {
+      // 精确匹配或前缀匹配
+      return path === skipPath || path.startsWith(skipPath + '/');
+    }
+    // 支持正则表达式
+    if (skipPath instanceof RegExp) {
+      return skipPath.test(path);
+    }
+    return false;
+  });
+}
+
+/**
  * 创建认证中间件
  * @param {Object} options - 配置选项
  * @returns {Function} Express 中间件函数
@@ -153,8 +208,8 @@ function createAuthMiddleware(options = {}) {
   const config = { ...defaultConfig, ...options };
 
   return function authMiddleware(req, res, next) {
-    // 检查是否需要跳过认证
-    if (config.skipPaths.includes(req.path)) {
+    // 检查是否需要跳过认证(使用更安全的路径匹配)
+    if (shouldSkipAuth(req.path, config.skipPaths)) {
       return next();
     }
 
@@ -162,14 +217,18 @@ function createAuthMiddleware(options = {}) {
       // 提取 token
       const token = extractToken(req, config);
 
-      if (!token || token.trim() === '') {
+      // 添加类型检查,防止 trim() 抛出异常
+      if (!token || typeof token !== 'string' || token.trim() === '') {
         throw new AuthError('未提供认证 Token', 401);
       }
 
       // 验证 token
       const decoded = verifyToken(token, config);
 
-      // 将用户信息附加到请求对象
+      // 将用户信息附加到请求对象(检查是否已存在)
+      if (req.user) {
+        console.warn('⚠️  警告: req.user 已存在,可能被覆盖');
+      }
       req.user = decoded;
 
       next();
@@ -194,7 +253,7 @@ function createAuthMiddleware(options = {}) {
 }
 
 /**
- * 创建权限检查中间件
+ * 创建权限检查中间件(需要所有权限)
  * @param {Array|string} requiredPermissions - 所需权限
  * @returns {Function} Express 中间件函数
  */
@@ -206,6 +265,41 @@ function requirePermissions(requiredPermissions) {
       }
 
       if (!hasPermission(req.user, requiredPermissions)) {
+        throw new AuthError('权限不足', 403);
+      }
+
+      next();
+    } catch (error) {
+      if (error instanceof AuthError) {
+        return res.status(error.statusCode).json({
+          success: false,
+          error: error.message,
+          code: error.statusCode
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        error: '服务器内部错误',
+        code: 500
+      });
+    }
+  };
+}
+
+/**
+ * 创建权限检查中间件(需要任一权限)
+ * @param {Array|string} requiredPermissions - 所需权限
+ * @returns {Function} Express 中间件函数
+ */
+function requireAnyPermission(requiredPermissions) {
+  return function anyPermissionMiddleware(req, res, next) {
+    try {
+      if (!req.user) {
+        throw new AuthError('未认证的用户', 401);
+      }
+
+      if (!hasAnyPermission(req.user, requiredPermissions)) {
         throw new AuthError('权限不足', 403);
       }
 
@@ -270,6 +364,17 @@ function requireRoles(requiredRoles) {
  * @returns {string} JWT token
  */
 function generateToken(payload, options = {}) {
+  // 验证 payload
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new TypeError('payload 必须是一个对象');
+  }
+
+  // 检查 payload 大小(避免生成过大的 token)
+  const payloadSize = JSON.stringify(payload).length;
+  if (payloadSize > 4096) {
+    console.warn(`⚠️  警告: JWT payload 过大 (${payloadSize} 字节),可能影响性能`);
+  }
+
   const config = { ...defaultConfig, ...options };
 
   return jwt.sign(payload, config.secret, {
@@ -303,6 +408,7 @@ module.exports = {
   // 主要中间件
   createAuthMiddleware,
   requirePermissions,
+  requireAnyPermission,
   requireRoles,
 
   // 工具函数
@@ -310,7 +416,9 @@ module.exports = {
   extractToken,
   verifyToken,
   hasPermission,
+  hasAnyPermission,
   hasRole,
+  shouldSkipAuth,
 
   // 错误处理
   AuthError,
