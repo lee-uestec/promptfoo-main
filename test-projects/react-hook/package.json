@@ -1,0 +1,22 @@
+{
+  "name": "use-local-storage-hook",
+  "version": "1.0.0",
+  "description": "A custom React Hook for localStorage with multi-tab synchronization",
+  "main": "useLocalStorage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "localStorage",
+    "storage",
+    "sync",
+    "custom-hook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  }
+}

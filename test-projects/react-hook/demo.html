@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>useLocalStorage Hook Demo</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    #root {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #007bff;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #555;
+      margin-top: 0;
+    }
+    section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fafafa;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button.danger {
+      background: #dc3545;
+    }
+    button.danger:hover {
+      background: #c82333;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      border: 1px solid #e0e0e0;
+    }
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .counter-display {
+      font-size: 28px;
+      font-weight: bold;
+      min-width: 60px;
+      text-align: center;
+      color: #007bff;
+    }
+    .todo-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      background: white;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #e0e0e0;
+    }
+    .todo-item label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      flex: 1;
+    }
+    .todo-item input[type="checkbox"] {
+      margin-right: 10px;
+      width: auto;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #999;
+    }
+    .info-box {
+      padding: 20px;
+      background: #e3f2fd;
+      border-radius: 5px;
+      border-left: 4px solid #2196f3;
+    }
+    .info-box h3 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+    .info-box ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+    .info-box li {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    // useLocalStorage Hook 实现
+    const useLocalStorage = (key, initialValue) => {
+      const readValue = useCallback(() => {
+        if (typeof window === 'undefined') {
+          return initialValue;
+        }
+
+        try {
+          const item = window.localStorage.getItem(key);
+          return item ? JSON.parse(item) : initialValue;
+        } catch (error) {
+          console.warn(`Error reading localStorage key "${key}":`, error);
+          return initialValue;
+        }
+      }, [initialValue, key]);
+
+      const [storedValue, setStoredValue] = useState(readValue);
+
+      const setValue = useCallback((value) => {
+        if (typeof window === 'undefined') {
+          console.warn(`Tried setting localStorage key "${key}" even though environment is not a client`);
+          return;
+        }
+
+        try {
+          const newValue = value instanceof Function ? value(storedValue) : value;
+          window.localStorage.setItem(key, JSON.stringify(newValue));
+          setStoredValue(newValue);
+          window.dispatchEvent(new Event('local-storage'));
+        } catch (error) {
+          console.warn(`Error setting localStorage key "${key}":`, error);
+        }
+      }, [key, storedValue]);
+
+      useEffect(() => {
+        setStoredValue(readValue());
+
+        const handleStorageChange = (e) => {
+          if (e.key === key || e.key === null) {
+            setStoredValue(readValue());
+          }
+        };
+
+        const handleLocalStorageChange = () => {
+          setStoredValue(readValue());
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('local-storage', handleLocalStorageChange);
+
+        return () => {
+          window.removeEventListener('storage', handleStorageChange);
+          window.removeEventListener('local-storage', handleLocalStorageChange);
+        };
+      }, [key, readValue]);
+
+      return [storedValue, setValue];
+    };
+
+    // 演示应用
+    function App() {
+      const [name, setName] = useLocalStorage('demo-name', '');
+      const [user, setUser] = useLocalStorage('demo-user', { name: '', email: '', age: 0 });
+      const [todos, setTodos] = useLocalStorage('demo-todos', []);
+      const [darkMode, setDarkMode] = useLocalStorage('demo-darkMode', false);
+      const [counter, setCounter] = useLocalStorage('demo-counter', 0);
+
+      const addTodo = () => {
+        const newTodo = {
+          id: Date.now(),
+          text: `任务 ${todos.length + 1}`,
+          completed: false
+        };
+        setTodos([...todos, newTodo]);
+      };
+
+      const removeTodo = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id));
+      };
+
+      const toggleTodo = (id) => {
+        setTodos(todos.map(todo =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        ));
+      };
+
+      const updateUser = (field, value) => {
+        setUser(prev => ({ ...prev, [field]: value }));
+      };
+
+      return (
+        <div>
+          <h1>🎯 useLocalStorage Hook 演示</h1>
+          <p style={{ color: '#666', marginBottom: '30px' }}>
+            一个功能完整的 React Hook，支持 localStorage 存储和多标签页实时同步
+          </p>
+
+          {/* 示例 1: 简单字符串 */}
+          <section>
+            <h2>📝 示例 1: 存储简单字符串</h2>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="输入你的名字"
+            />
+            <p>存储的名字: <strong>{name || '(空)'}</strong></p>
+          </section>
+
+          {/* 示例 2: 对象 */}
+          <section>
+            <h2>👤 示例 2: 存储对象</h2>
+            <div>
+              <input
+                type="text"
+                value={user.name}
+                onChange={(e) => updateUser('name', e.target.value)}
+                placeholder="姓名"
+              />
+              <input
+                type="email"
+                value={user.email}
+                onChange={(e) => updateUser('email', e.target.value)}
+                placeholder="邮箱"
+              />
+              <input
+                type="number"
+                value={user.age}
+                onChange={(e) => updateUser('age', parseInt(e.target.value) || 0)}
+                placeholder="年龄"
+              />
+            </div>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
+          </section>
+
+          {/* 示例 3: 数组（待办事项） */}
+          <section>
+            <h2>✅ 示例 3: 存储数组（待办事项）</h2>
+            <button onClick={addTodo}>➕ 添加待办事项</button>
+            <div style={{ marginTop: '15px' }}>
+              {todos.map(todo => (
+                <div key={todo.id} className="todo-item">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={() => toggleTodo(todo.id)}
+                    />
+                    <span className={todo.completed ? 'completed' : ''}>
+                      {todo.text}
+                    </span>
+                  </label>
+                  <button
+                    className="danger"
+                    onClick={() => removeTodo(todo.id)}
+                  >
+                    删除
+                  </button>
+                </div>
+              ))}
+              {todos.length === 0 && <p style={{ color: '#999' }}>暂无待办事项</p>}
+            </div>
+          </section>
+
+          {/* 示例 4: 布尔值 */}
+          <section>
+            <h2>🌙 示例 4: 存储布尔值</h2>
+            <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', width: 'fit-content' }}>
+              <input
+                type="checkbox"
+                checked={darkMode}
+                onChange={(e) => setDarkMode(e.target.checked)}
+                style={{ width: 'auto', marginRight: '10px' }}
+              />
+              启用暗黑模式
+            </label>
+            <p>当前状态: <strong>{darkMode ? '✅ 已启用' : '❌ 已禁用'}</strong></p>
+          </section>
+
+          {/* 示例 5: 数字 */}
+          <section>
+            <h2>🔢 示例 5: 存储数字</h2>
+            <div className="counter-controls">
+              <button onClick={() => setCounter(c => c - 1)}>➖</button>
+              <div className="counter-display">{counter}</div>
+              <button onClick={() => setCounter(c => c + 1)}>➕</button>
+              <button onClick={() => setCounter(0)} style={{ marginLeft: '10px' }}>
+                🔄 重置
+              </button>
+            </div>
+          </section>
+
+          {/* 提示信息 */}
+          <div className="info-box">
+            <h3>💡 功能说明</h3>
+            <ul>
+              <li>✅ 所有数据自动保存到 localStorage</li>
+              <li>✅ 刷新页面后数据保持不变</li>
+              <li>✅ 打开多个标签页，数据会自动同步</li>
+              <li>✅ 支持存储字符串、对象、数组、布尔值、数字等类型</li>
+              <li>✅ 自动处理 JSON 序列化和反序列化</li>
+            </ul>
+            <p style={{ margin: '10px 0 0 0', fontSize: '14px', color: '#666' }}>
+              💻 <strong>测试多标签页同步：</strong>复制当前页面 URL，在新标签页打开，修改数据后观察两个标签页的同步效果！
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // 渲染应用
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
