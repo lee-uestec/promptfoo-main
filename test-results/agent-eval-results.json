@@ -1,0 +1,684 @@
+{
+  "evalId": "eval-8xR-2026-01-28T06:34:50",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-01-28T06:34:50.487Z",
+    "prompts": [
+      {
+        "id": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "raw": "{{prompt}}",
+        "label": "{{prompt}}",
+        "provider": "file://tests/promptfoo-provider.js",
+        "metrics": {
+          "score": 3.5,
+          "testPassCount": 3,
+          "testFailCount": 1,
+          "testErrorCount": 2,
+          "assertPassCount": 4,
+          "assertFailCount": 1,
+          "totalLatencyMs": 823215,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 4,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "error": "Error: API key is not set. Set the OPENAI_API_KEY environment variable or add `apiKey` to the provider config.\n    at OpenAiChatCompletionProvider.callApi (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/openai/chat.ts:1:7524)\n    at callProviderWithContext (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:1:2830)\n    at matchesLlmRubric (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:10704)\n    at runAssertion (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:11665)\n    at file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:12947",
+        "gradingResult": null,
+        "id": "ecbcf7df-00fd-4fe9-b40c-7b2bcae954e1",
+        "latencyMs": 48736,
+        "namedScores": {},
+        "prompt": {
+          "raw": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "简单功能 - 创建 Hello World 函数",
+          "vars": {
+            "projectPath": "./test-projects/simple",
+            "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success === true ? 1 : 0;\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "输出应该表明成功创建了一个包含 Hello World 函数的文件，\n并且代码应该是有效的 JavaScript 代码\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "projectPath": "./test-projects/simple",
+          "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
+        },
+        "metadata": {
+          "errorContext": {
+            "providerId": "file://tests/promptfoo-provider.js",
+            "providerLabel": ""
+          }
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+              }
+            }
+          ]
+        },
+        "id": "4eeeafff-8d8c-43e3-a9d8-f9d1ed916cbf",
+        "latencyMs": 455661,
+        "namedScores": {},
+        "prompt": {
+          "raw": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "response": {
+          "output": "{\n  \"success\": true,\n  \"content\": \"完美!代码已成功提交到本地仓库。\\n\\n## 总结\\n\\n由于提供的参数中 `git_url` 和 `email_prefix` 都是空的,我无法完成以下操作:\\n- 获取 git token\\n- 推送代码到远程仓库\\n- 创建 Merge Request\\n\\n但我已经成功完成了以下操作:\\n\\n✅ **已完成的操作:**\\n1. ✅ 创建并修改了 `app.js` 文件,实现了 greet 函数\\n2. ✅ 函数接受 `name` 参数并返回 `'Hello, {name}!'` 格式的字符串\\n3. ✅ 验证了代码功能正常(测试通过)\\n4. ✅ 创建了新分支: `feat/codelink/test-1769582142312/greet`\\n5. ✅ 提交了代码到本地仓库\\n6. ✅ 使用了符合规范的提交信息: `[紧急] 实现greet函数接受name参数并返回问候语`\\n\\n**提交信息:**\\n- 分支: `feat/codelink/test-1769582142312/greet`\\n- 提交: `2d6bdb8 [紧急] 实现greet函数接受name参数并返回问候语`\\n- 文件: `test-projects/modify/app.js`\\n\\n⚠️ **无法完成的操作:**\\n- 推送到远程仓库(因为 git_url 参数为空)\\n- 创建 Merge Request(因为缺少必要的参数)\\n\\n如果您需要推送代码并创建 MR,请提供以下信息:\\n- git_url: GitLab 仓库地址\\n- email_prefix: 邮箱前缀\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
+          "tokenUsage": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0
+          },
+          "cost": 0,
+          "latencyMs": 455661,
+          "cached": false,
+          "metadata": {
+            "success": true,
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+            "filesCreated": 0,
+            "filesModified": 0
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "代码修改 - 更新现有函数",
+          "vars": {
+            "projectPath": "./test-projects/modify",
+            "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "projectPath": "./test-projects/modify",
+          "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+        },
+        "metadata": {
+          "success": true,
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+          "filesCreated": 0,
+          "filesModified": 0,
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
+              }
+            }
+          ]
+        },
+        "id": "8247a2c9-d119-4ada-af11-9b5d8f000bf3",
+        "latencyMs": 80243,
+        "namedScores": {},
+        "prompt": {
+          "raw": "读取不存在的文件 /nonexistent/file.js",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "response": {
+          "output": "{\n  \"success\": true,\n  \"content\": \"文件 `/nonexistent/file.js` 不存在。\\n\\n这个路径下没有找到该文件。可能的原因有:\\n1. 文件路径不正确\\n2. 文件确实不存在\\n3. 文件名拼写错误\\n\\n你能提供一下:\\n- 正确的文件路径?\\n- 或者告诉我你想要查找的文件名,我可以帮你搜索一下?\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
+          "tokenUsage": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0
+          },
+          "cost": 0,
+          "latencyMs": 80243,
+          "cached": false,
+          "metadata": {
+            "success": true,
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+            "filesCreated": 0,
+            "filesModified": 0
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "错误恢复 - 无效的文件路径",
+          "vars": {
+            "projectPath": "./test-projects/invalid",
+            "prompt": "读取不存在的文件 /nonexistent/file.js",
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "projectPath": "./test-projects/invalid",
+          "prompt": "读取不存在的文件 /nonexistent/file.js",
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+        },
+        "metadata": {
+          "success": true,
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+          "filesCreated": 0,
+          "filesModified": 0,
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "error": "Error: API key is not set. Set the OPENAI_API_KEY environment variable or add `apiKey` to the provider config.\n    at OpenAiChatCompletionProvider.callApi (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/openai/chat.ts:1:7524)\n    at callProviderWithContext (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:1:2830)\n    at matchesLlmRubric (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:10704)\n    at runAssertion (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:11665)\n    at file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:12947",
+        "gradingResult": null,
+        "id": "920e8efa-ae91-403e-8026-4b59d62980cb",
+        "latencyMs": 98165,
+        "namedScores": {},
+        "prompt": {
+          "raw": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "复杂任务 - 创建多个相关文件",
+          "vars": {
+            "projectPath": "./test-projects/multi-file",
+            "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "输出应该显示成功创建了所有三个文件，\n并且文件之间应该有合理的引用关系\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "vars": {
+          "projectPath": "./test-projects/multi-file",
+          "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
+        },
+        "metadata": {
+          "errorContext": {
+            "providerId": "file://tests/promptfoo-provider.js",
+            "providerLabel": ""
+          }
+        },
+        "failureReason": 2
+      },
+      {
+        "cost": 0,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+              }
+            }
+          ]
+        },
+        "id": "331f3220-a014-4c95-be0c-d58a1b813302",
+        "latencyMs": 53671,
+        "namedScores": {},
+        "prompt": {
+          "raw": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "response": {
+          "output": "{\n  \"success\": true,\n  \"content\": \"测试文件已删除完毕!\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
+          "tokenUsage": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0
+          },
+          "cost": 0,
+          "latencyMs": 53671,
+          "cached": false,
+          "metadata": {
+            "success": true,
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+            "filesCreated": 0,
+            "filesModified": 0
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "description": "工具测试 - Bash 命令执行",
+          "vars": {
+            "projectPath": "./test-projects/bash-test",
+            "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 4,
+        "vars": {
+          "projectPath": "./test-projects/bash-test",
+          "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+        },
+        "metadata": {
+          "success": true,
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+          "filesCreated": 0,
+          "filesModified": 0,
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0,
+        "error": "Latency 86739ms is greater than threshold 30000ms",
+        "gradingResult": {
+          "pass": false,
+          "score": 0.5,
+          "reason": "Latency 86739ms is greater than threshold 30000ms",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Latency 86739ms is greater than threshold 30000ms",
+              "assertion": {
+                "type": "latency",
+                "threshold": 30000
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+              }
+            }
+          ]
+        },
+        "id": "0319d164-c775-4d55-af6b-a23c84df4450",
+        "latencyMs": 86739,
+        "namedScores": {},
+        "prompt": {
+          "raw": "创建一个空的 test.js 文件",
+          "label": "{{prompt}}",
+          "config": {}
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://tests/promptfoo-provider.js",
+          "label": ""
+        },
+        "response": {
+          "output": "{\n  \"success\": true,\n  \"content\": \"已成功创建空的 test.js 文件，路径为：`/Users/well_lee/test.js`\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
+          "tokenUsage": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0
+          },
+          "cost": 0,
+          "latencyMs": 86739,
+          "cached": false,
+          "metadata": {
+            "success": true,
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+            "filesCreated": 0,
+            "filesModified": 0
+          }
+        },
+        "score": 0.5,
+        "success": false,
+        "testCase": {
+          "description": "性能测试 - 简单任务响应时间",
+          "vars": {
+            "projectPath": "./test-projects/perf",
+            "prompt": "创建一个空的 test.js 文件",
+            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+          },
+          "assert": [
+            {
+              "type": "latency",
+              "threshold": 30000
+            },
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 5,
+        "vars": {
+          "projectPath": "./test-projects/perf",
+          "prompt": "创建一个空的 test.js 文件",
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+        },
+        "metadata": {
+          "success": true,
+          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+          "filesCreated": 0,
+          "filesModified": 0,
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      }
+    ],
+    "stats": {
+      "successes": 3,
+      "failures": 1,
+      "errors": 2,
+      "tokenUsage": {
+        "prompt": 0,
+        "completion": 0,
+        "cached": 0,
+        "total": 0,
+        "numRequests": 4,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0
+          }
+        }
+      },
+      "durationMs": 826350
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "Claude Code Agent - AutoModeService 测试套件",
+    "prompts": [
+      "{{prompt}}"
+    ],
+    "providers": [
+      "file://tests/promptfoo-provider.js"
+    ],
+    "tests": [
+      {
+        "description": "简单功能 - 创建 Hello World 函数",
+        "vars": {
+          "projectPath": "./test-projects/simple",
+          "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success === true ? 1 : 0;\n"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "输出应该表明成功创建了一个包含 Hello World 函数的文件，\n并且代码应该是有效的 JavaScript 代码\n"
+          }
+        ]
+      },
+      {
+        "description": "代码修改 - 更新现有函数",
+        "vars": {
+          "projectPath": "./test-projects/modify",
+          "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+          }
+        ]
+      },
+      {
+        "description": "错误恢复 - 无效的文件路径",
+        "vars": {
+          "projectPath": "./test-projects/invalid",
+          "prompt": "读取不存在的文件 /nonexistent/file.js"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
+          }
+        ]
+      },
+      {
+        "description": "复杂任务 - 创建多个相关文件",
+        "vars": {
+          "projectPath": "./test-projects/multi-file",
+          "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "输出应该显示成功创建了所有三个文件，\n并且文件之间应该有合理的引用关系\n"
+          }
+        ]
+      },
+      {
+        "description": "工具测试 - Bash 命令执行",
+        "vars": {
+          "projectPath": "./test-projects/bash-test",
+          "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+          }
+        ]
+      },
+      {
+        "description": "性能测试 - 简单任务响应时间",
+        "vars": {
+          "projectPath": "./test-projects/perf",
+          "prompt": "创建一个空的 test.js 文件"
+        },
+        "assert": [
+          {
+            "type": "latency",
+            "threshold": 30000
+          },
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+          }
+        ]
+      }
+    ],
+    "scenarios": [],
+    "env": {},
+    "outputPath": [
+      "./test-results/agent-eval-results.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {
+      "maxConcurrency": 1,
+      "repeat": 1,
+      "delay": 1000
+    }
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.120.17",
+    "nodeVersion": "v20.19.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-01-28T06:48:36.982Z",
+    "evaluationCreatedAt": "2026-01-28T06:34:50.487Z"
+  }
+}
