@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, '密码是必需的'],
       minlength: [8, '密码至少需要8个字符'],
+      select: false, // 默认查询时不返回密码字段
       validate: {
         validator: function(v) {
           // 密码强度验证：至少8个字符，包含大小写字母、数字
