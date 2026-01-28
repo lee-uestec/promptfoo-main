@@ -79,10 +79,24 @@ router.post('/', (req, res) => {
     const { name, email, age } = req.body;
 
     // 验证必填字段
-    if (!name || !email) {
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
       return res.status(400).json({
         success: false,
-        message: '用户名称和邮箱为必填项'
+        message: '用户名称不能为空'
+      });
+    }
+
+    if (name.trim().length > 100) {
+      return res.status(400).json({
+        success: false,
+        message: '用户名称长度不能超过100个字符'
+      });
+    }
+
+    if (!email || typeof email !== 'string' || email.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: '邮箱不能为空'
       });
     }
 
@@ -93,6 +107,17 @@ router.post('/', (req, res) => {
         success: false,
         message: '邮箱格式不正确'
       });
+    }
+
+    // 验证年龄
+    if (age !== undefined && age !== null) {
+      const ageNum = parseInt(age);
+      if (isNaN(ageNum) || ageNum < 0 || ageNum > 150) {
+        return res.status(400).json({
+          success: false,
+          message: '年龄必须是0-150之间的数字'
+        });
+      }
     }
 
     // 检查邮箱是否已存在
@@ -107,9 +132,9 @@ router.post('/', (req, res) => {
     // 创建新用户
     const newUser = {
       id: nextId++,
-      name,
-      email,
-      age: age || null
+      name: name.trim(),
+      email: email.trim(),
+      age: age ? parseInt(age) : null
     };
 
     users.push(newUser);
@@ -157,8 +182,39 @@ router.put('/:id', (req, res) => {
 
     const { name, email, age } = req.body;
 
+    // 检查是否至少有一个字段需要更新
+    if (name === undefined && email === undefined && age === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: '请至少提供一个要更新的字段'
+      });
+    }
+
+    // 验证用户名
+    if (name !== undefined) {
+      if (typeof name !== 'string' || name.trim().length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: '用户名称不能为空'
+        });
+      }
+      if (name.trim().length > 100) {
+        return res.status(400).json({
+          success: false,
+          message: '用户名称长度不能超过100个字符'
+        });
+      }
+    }
+
     // 验证邮箱格式（如果提供了邮箱）
-    if (email) {
+    if (email !== undefined) {
+      if (typeof email !== 'string' || email.trim().length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: '邮箱不能为空'
+        });
+      }
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         return res.status(400).json({
@@ -177,10 +233,21 @@ router.put('/:id', (req, res) => {
       }
     }
 
+    // 验证年龄
+    if (age !== undefined && age !== null) {
+      const ageNum = parseInt(age);
+      if (isNaN(ageNum) || ageNum < 0 || ageNum > 150) {
+        return res.status(400).json({
+          success: false,
+          message: '年龄必须是0-150之间的数字'
+        });
+      }
+    }
+
     // 更新用户信息
-    if (name !== undefined) users[userIndex].name = name;
-    if (email !== undefined) users[userIndex].email = email;
-    if (age !== undefined) users[userIndex].age = age;
+    if (name !== undefined) users[userIndex].name = name.trim();
+    if (email !== undefined) users[userIndex].email = email.trim();
+    if (age !== undefined) users[userIndex].age = age ? parseInt(age) : null;
 
     res.status(200).json({
       success: true,
