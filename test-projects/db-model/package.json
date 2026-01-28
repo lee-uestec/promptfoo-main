@@ -1,0 +1,16 @@
+{
+  "name": "user-model",
+  "version": "1.0.0",
+  "description": "Mongoose User Schema with password encryption",
+  "main": "User.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["mongoose", "user", "schema", "bcrypt"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.0.0",
+    "bcryptjs": "^2.4.3"
+  }
+}
