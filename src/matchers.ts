@@ -203,7 +203,26 @@ export async function getAndCheckProvider(
   defaultProvider: ApiProvider | null,
   checkName: string,
 ): Promise<ApiProvider> {
-  const matchedProvider = await getGradingProvider(type, provider, defaultProvider);
+  let matchedProvider: ApiProvider | null;
+  try {
+    matchedProvider = await getGradingProvider(type, provider, defaultProvider);
+  } catch (err) {
+    // Enhance error message for file not found errors
+    const error = err as NodeJS.ErrnoException;
+    if (error.code === 'ENOENT' && error.path) {
+      throw new Error(
+        `Failed to load provider for '${checkName}': File not found at '${error.path}'.\n\n` +
+        `Please check that:\n` +
+        `  1. The file path is correct and the file exists\n` +
+        `  2. The path is relative to your configuration file or use an absolute path\n` +
+        `  3. The file has the correct permissions\n\n` +
+        `Original provider configuration: ${JSON.stringify(provider, null, 2)}`,
+      );
+    }
+    // Re-throw other errors as-is
+    throw err;
+  }
+
   if (!matchedProvider) {
     if (defaultProvider) {
       logger.warn(`No provider of type ${type} found for '${checkName}', falling back to default`);
@@ -671,7 +690,14 @@ export async function matchesLlmRubric(
     try {
       jsonObjects = extractJsonObjects(resp.output);
       if (jsonObjects.length === 0) {
-        return fail('Could not extract JSON from llm-rubric response', resp.tokenUsage);
+        // Provide detailed error with original response for debugging
+        const truncatedOutput = resp.output.length > 500
+          ? `${resp.output.substring(0, 500)}... (truncated, total length: ${resp.output.length})`
+          : resp.output;
+        return fail(
+          `Could not extract JSON from llm-rubric response. The LLM may have returned plain text instead of JSON. Raw output:\n\n${truncatedOutput}`,
+          resp.tokenUsage,
+        );
       }
     } catch (err) {
       return fail(

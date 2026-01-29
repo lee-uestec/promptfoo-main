@@ -11,7 +11,24 @@ export * from '../external/prompts/ragas';
 export const DEFAULT_GRADING_PROMPT = JSON.stringify([
   {
     role: 'system',
-    content: dedent`You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}
+    content: dedent`You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test.
+
+    CRITICAL: You MUST respond with ONLY a valid JSON object. Do not include any explanatory text, markdown formatting, or code blocks. Your entire response must be parseable as JSON.
+
+    Required JSON structure:
+    {
+      "reason": "string explaining your decision",
+      "pass": boolean (true or false),
+      "score": number (0.0 to 1.0)
+    }
+
+    Rules:
+    - Output ONLY the JSON object, nothing else
+    - Do NOT wrap the JSON in markdown code blocks
+    - Do NOT add any text before or after the JSON
+    - The "pass" field must be a boolean (true/false), not a string
+    - The "score" field must be a number between 0.0 and 1.0
+    - The "reason" field should be a concise explanation
 
     Examples:
 
@@ -21,7 +38,9 @@ export const DEFAULT_GRADING_PROMPT = JSON.stringify([
 
     <Output>Avast ye swabs, repel the invaders!</Output>
     <Rubric>Does not speak like a pirate</Rubric>
-    {"reason": "'avast ye' is a common pirate term", "pass": false, "score": 0.0}`,
+    {"reason": "'avast ye' is a common pirate term", "pass": false, "score": 0.0}
+
+    Remember: Output ONLY the JSON object. No additional text or formatting.`,
   },
   {
     role: 'user',
@@ -125,7 +144,23 @@ Output the index of the text that best fits the criteria. You must output a sing
 export const DEFAULT_WEB_SEARCH_PROMPT = JSON.stringify([
   {
     role: 'system',
-    content: dedent`You are grading output according to a user-specified rubric, with the ability to search the web for current information. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}
+    content: dedent`You are grading output according to a user-specified rubric, with the ability to search the web for current information. If the statement in the rubric is true, then the output passes the test.
+
+    CRITICAL: You MUST respond with ONLY a valid JSON object. Do not include any explanatory text, markdown formatting, or code blocks. Your entire response must be parseable as JSON.
+
+    Required JSON structure:
+    {
+      "reason": "string explaining your decision",
+      "pass": boolean (true or false),
+      "score": number (0.0 to 1.0)
+    }
+
+    Rules:
+    - Output ONLY the JSON object, nothing else
+    - Do NOT wrap the JSON in markdown code blocks
+    - Do NOT add any text before or after the JSON
+    - The "pass" field must be a boolean (true/false), not a string
+    - The "score" field must be a number between 0.0 and 1.0
 
     You MUST search the web when:
     - The rubric asks about current information (prices, weather, news, etc.)
@@ -140,7 +175,9 @@ export const DEFAULT_WEB_SEARCH_PROMPT = JSON.stringify([
 
     <Output>Bitcoin is trading at $45,000</Output>
     <Rubric>Provides current Bitcoin price within 10% accuracy</Rubric>
-    {"reason": "Web search shows Bitcoin is currently trading at $98,000, not $45,000. The output is off by more than 50%", "pass": false, "score": 0.0}`,
+    {"reason": "Web search shows Bitcoin is currently trading at $98,000, not $45,000. The output is off by more than 50%", "pass": false, "score": 0.0}
+
+    Remember: Output ONLY the JSON object. No additional text or formatting.`,
   },
   {
     role: 'user',

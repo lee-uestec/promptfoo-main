@@ -1,0 +1,213 @@
+{
+  "evalId": "eval-iav-2026-01-29T06:21:01",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-01-29T06:21:01.437Z",
+    "prompts": [
+      {
+        "id": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "raw": "{{prompt}}",
+        "label": "{{prompt}}",
+        "provider": "file://promptfoo-provider.js",
+        "metrics": {
+          "score": 0,
+          "testPassCount": 0,
+          "testFailCount": 0,
+          "testErrorCount": 1,
+          "assertPassCount": 0,
+          "assertFailCount": 0,
+          "totalLatencyMs": 1284779,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "numRequests": 0,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 0,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0,
+        "error": "Error: ENOENT: no such file or directory, open '/Users/well_lee/WebstormProjects/claude-code-agent/tests/custom-llm-grader.js'\n    at importModule (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/esm.ts:7:397)\n    at Object.create (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/registry.ts:4:26392)\n    at loadApiProvider (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/index.ts:1:3377)\n    at getGradingProvider (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:1:3569)\n    at getAndCheckProvider (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:839)\n    at matchesLlmRubric (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:10601)\n    at runAssertion (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:11665)\n    at file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:12947",
+        "gradingResult": null,
+        "id": "80fb68c6-b9cd-4ed5-8d65-9bbb3ed16541",
+        "latencyMs": 1284779,
+        "namedScores": {},
+        "prompt": {
+          "raw": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：UserController\n- 功能：提供用户信息查询接口\n- 端点：\n  - GET /api/users - 获取所有用户列表\n  - GET /api/users/{userId} - 获取指定用户详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式\n- 添加适当的日志记录",
+          "label": "{{prompt}}",
+          "config": {
+            "provider": "file://../tests/custom-llm-grader.js",
+            "runSerially": true
+          }
+        },
+        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
+        "promptIdx": 0,
+        "provider": {
+          "id": "file://promptfoo-provider.js",
+          "label": ""
+        },
+        "score": 0,
+        "success": false,
+        "testCase": {
+          "description": "【加权评分示例】Java-创建 REST Controller",
+          "vars": {
+            "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+            "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：UserController\n- 功能：提供用户信息查询接口\n- 端点：\n  - GET /api/users - 获取所有用户列表\n  - GET /api/users/{userId} - 获取指定用户详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式\n- 添加适当的日志记录\n"
+          },
+          "assert": [
+            {
+              "type": "javascript",
+              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n\n// 检查基本成功状态\nif (!result.success) {\n  console.log('[基础检查] Agent 执行失败');\n  return 0;\n}\n\nconsole.log('[基础检查] Agent 执行成功');\nreturn 1;\n"
+            },
+            {
+              "type": "javascript",
+              "value": "// code-test-grader 会自动运行编译和测试\n// 这里只需要返回 1 让 grader 执行\nconst result = typeof output === 'string' ? JSON.parse(output) : output;\n\nif (!result.success) {\n  return 0;\n}\n\nreturn 1;\n",
+              "provider": "file://../tests/code-test-grader.js"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "评估生成的 Controller 代码质量：\n\n**必须满足的要求：**\n1. 使用正确的 Spring Boot 注解（@RestController, @GetMapping 等）\n2. 包含完整的包声明和 import 语句\n3. 使用项目统一的响应格式包装类\n4. 添加了适当的日志记录（Slf4j）\n\n**代码质量标准：**\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释说明类和方法用途\n7. 方法参数使用了合适的验证注解（@PathVariable 等）\n8. 异常处理合理\n\n**评分标准：**\n- 满足所有要求且代码质量优秀：1.0\n- 满足所有要求但代码质量一般：0.7-0.9\n- 缺少部分要求：0.4-0.6\n- 不符合基本要求：0-0.3\n"
+            }
+          ],
+          "options": {
+            "provider": "file://../tests/custom-llm-grader.js",
+            "runSerially": true
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：UserController\n- 功能：提供用户信息查询接口\n- 端点：\n  - GET /api/users - 获取所有用户列表\n  - GET /api/users/{userId} - 获取指定用户详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式\n- 添加适当的日志记录\n"
+        },
+        "metadata": {
+          "errorContext": {
+            "providerId": "file://promptfoo-provider.js",
+            "providerLabel": ""
+          }
+        },
+        "failureReason": 2
+      }
+    ],
+    "stats": {
+      "successes": 0,
+      "failures": 0,
+      "errors": 1,
+      "tokenUsage": {
+        "prompt": 0,
+        "completion": 0,
+        "cached": 0,
+        "total": 0,
+        "numRequests": 0,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0
+        },
+        "assertions": {
+          "total": 0,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0
+          }
+        }
+      },
+      "durationMs": 1287897
+    }
+  },
+  "config": {
+    "tags": {},
+    "description": "加权评分测试 - 基础检查 + 代码测试 + LLM评估",
+    "prompts": [
+      "{{prompt}}"
+    ],
+    "providers": [
+      "file://promptfoo-provider.js"
+    ],
+    "tests": [
+      {
+        "description": "【加权评分示例】Java-创建 REST Controller",
+        "vars": {
+          "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：UserController\n- 功能：提供用户信息查询接口\n- 端点：\n  - GET /api/users - 获取所有用户列表\n  - GET /api/users/{userId} - 获取指定用户详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式\n- 添加适当的日志记录\n"
+        },
+        "assert": [
+          {
+            "type": "javascript",
+            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n\n// 检查基本成功状态\nif (!result.success) {\n  console.log('[基础检查] Agent 执行失败');\n  return 0;\n}\n\nconsole.log('[基础检查] Agent 执行成功');\nreturn 1;\n"
+          },
+          {
+            "type": "javascript",
+            "value": "// code-test-grader 会自动运行编译和测试\n// 这里只需要返回 1 让 grader 执行\nconst result = typeof output === 'string' ? JSON.parse(output) : output;\n\nif (!result.success) {\n  return 0;\n}\n\nreturn 1;\n",
+            "provider": "file://../tests/code-test-grader.js"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "评估生成的 Controller 代码质量：\n\n**必须满足的要求：**\n1. 使用正确的 Spring Boot 注解（@RestController, @GetMapping 等）\n2. 包含完整的包声明和 import 语句\n3. 使用项目统一的响应格式包装类\n4. 添加了适当的日志记录（Slf4j）\n\n**代码质量标准：**\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释说明类和方法用途\n7. 方法参数使用了合适的验证注解（@PathVariable 等）\n8. 异常处理合理\n\n**评分标准：**\n- 满足所有要求且代码质量优秀：1.0\n- 满足所有要求但代码质量一般：0.7-0.9\n- 缺少部分要求：0.4-0.6\n- 不符合基本要求：0-0.3\n"
+          }
+        ],
+        "assertScoringFunction": "file://../tests/weighted-scoring-function.js",
+        "options": {
+          "runSerially": true
+        }
+      }
+    ],
+    "scenarios": [],
+    "env": {},
+    "defaultTest": {
+      "options": {
+        "provider": "file://../tests/custom-llm-grader.js"
+      },
+      "vars": {},
+      "assert": [],
+      "metadata": {}
+    },
+    "outputPath": [
+      "./test-results/weighted-scoring-results.json"
+    ],
+    "extensions": [],
+    "metadata": {},
+    "evaluateOptions": {
+      "maxConcurrency": 1,
+      "repeat": 1,
+      "delay": 2000
+    }
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.120.17",
+    "nodeVersion": "v20.19.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-01-29T06:42:29.394Z",
+    "evaluationCreatedAt": "2026-01-29T06:21:01.437Z"
+  }
+}

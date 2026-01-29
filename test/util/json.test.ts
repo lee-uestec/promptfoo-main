@@ -470,6 +470,67 @@ describe('json utilities', () => {
     });
 
     describe('LLM output scenarios', () => {
+      it('should handle JSON wrapped in markdown code blocks with json tag', () => {
+        const input = dedent`
+          \`\`\`json
+          {
+            "reason": "The output is correct",
+            "pass": true,
+            "score": 1.0
+          }
+          \`\`\``;
+        const expectedOutput = [
+          {
+            reason: 'The output is correct',
+            pass: true,
+            score: 1.0,
+          },
+        ];
+        expect(extractJsonObjects(input)).toEqual(expectedOutput);
+      });
+
+      it('should handle JSON wrapped in markdown code blocks without language tag', () => {
+        const input = dedent`
+          \`\`\`
+          {
+            "reason": "Test failed due to timeout",
+            "pass": false,
+            "score": 0.0
+          }
+          \`\`\``;
+        const expectedOutput = [
+          {
+            reason: 'Test failed due to timeout',
+            pass: false,
+            score: 0.0,
+          },
+        ];
+        expect(extractJsonObjects(input)).toEqual(expectedOutput);
+      });
+
+      it('should handle JSON in markdown code blocks with surrounding text', () => {
+        const input = dedent`
+          Here is my evaluation:
+
+          \`\`\`json
+          {
+            "reason": "The answer is partially correct",
+            "pass": true,
+            "score": 0.7
+          }
+          \`\`\`
+
+          Hope this helps!`;
+        const expectedOutput = [
+          {
+            reason: 'The answer is partially correct',
+            pass: true,
+            score: 0.7,
+          },
+        ];
+        expect(extractJsonObjects(input)).toEqual(expectedOutput);
+      });
+
       it('should handle JSON with inline comments', () => {
         const input = dedent`
           {
@@ -561,6 +622,107 @@ describe('json utilities', () => {
         ];
         expect(extractJsonObjects(input)).toEqual(expectedOutput);
       });
+    });
+
+    it('should parse plain text format (PASS/SCORE/REASON)', () => {
+      const input = `PASS: Yes
+SCORE: 1.0
+REASON: 输出内容完全符合评估标准。它清晰地表明成功创建了一个名为hello.js的文件，该文件包含一个返回"Hello World"字符串的hello()函数。`;
+
+      const expectedOutput = [
+        {
+          pass: true,
+          score: 1.0,
+          reason:
+            '输出内容完全符合评估标准。它清晰地表明成功创建了一个名为hello.js的文件，该文件包含一个返回"Hello World"字符串的hello()函数。',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
+    });
+
+    it('should parse plain text format with "No" as pass value', () => {
+      const input = `PASS: No
+SCORE: 0.5
+REASON: The output does not meet all criteria.`;
+
+      const expectedOutput = [
+        {
+          pass: false,
+          score: 0.5,
+          reason: 'The output does not meet all criteria.',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
+    });
+
+    it('should parse plain text format with "true" as pass value', () => {
+      const input = `PASS: true
+SCORE: 0.8
+REASON: Mostly correct with minor issues.`;
+
+      const expectedOutput = [
+        {
+          pass: true,
+          score: 0.8,
+          reason: 'Mostly correct with minor issues.',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
+    });
+
+    it('should parse plain text format with "false" as pass value', () => {
+      const input = `PASS: false
+SCORE: 0.2
+REASON: Failed to meet requirements.`;
+
+      const expectedOutput = [
+        {
+          pass: false,
+          score: 0.2,
+          reason: 'Failed to meet requirements.',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
+    });
+
+    it('should handle plain text format with extra content after reason', () => {
+      const input = `PASS: Yes
+SCORE: 1.0
+REASON: Test passed successfully.
+
+Some additional text here.`;
+
+      const expectedOutput = [
+        {
+          pass: true,
+          score: 1.0,
+          reason: 'Test passed successfully.',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
+    });
+
+    it('should prefer plain text format over JSON when both exist', () => {
+      const input = `PASS: Yes
+SCORE: 0.9
+REASON: Good output.
+{"pass": false, "score": 0.1, "reason": "Bad"}`;
+
+      // Should extract plain text format first
+      const expectedOutput = [
+        {
+          pass: true,
+          score: 0.9,
+          reason: 'Good output.',
+        },
+      ];
+
+      expect(extractJsonObjects(input)).toEqual(expectedOutput);
     });
   });
 

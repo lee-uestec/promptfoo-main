@@ -204,27 +204,62 @@ export function extractJsonObjects(str: string): object[] {
   const jsonObjects: object[] = [];
   const maxJsonLength = 100000; // Prevent processing extremely large invalid JSON
 
-  for (let i = 0; i < str.length; i++) {
-    if (str[i] === '{') {
+  // Try to parse plain text format first (PASS: Yes, SCORE: 1.0, REASON: ...)
+  const plainTextMatch = str.match(/PASS:\s*(Yes|No|true|false)\s*\n\s*SCORE:\s*([\d.]+)\s*\n\s*REASON:\s*([\s\S]*?)(?=\n{|\n\n|$)/i);
+  if (plainTextMatch) {
+    const passValue = plainTextMatch[1].toLowerCase();
+    const pass = passValue === 'yes' || passValue === 'true';
+    const score = Number.parseFloat(plainTextMatch[2]);
+    const reason = plainTextMatch[3].trim();
+
+    if (!Number.isNaN(score)) {
+      return [{
+        pass,
+        score,
+        reason,
+      }];
+    }
+  }
+
+  // Pre-process: Remove markdown code blocks if present
+  let cleanedStr = str;
+
+  // Remove ```json ... ``` or ``` ... ``` blocks and extract content
+  const codeBlockRegex = /```(?:json)?\s*\n?([\s\S]*?)```/g;
+  const codeBlockMatches = Array.from(str.matchAll(codeBlockRegex));
+
+  if (codeBlockMatches.length > 0) {
+    // If we find code blocks, try to extract JSON from them first
+    for (const match of codeBlockMatches) {
+      const content = match[1].trim();
+      if (content.startsWith('{')) {
+        cleanedStr = content;
+        break; // Use the first valid code block
+      }
+    }
+  }
+
+  for (let i = 0; i < cleanedStr.length; i++) {
+    if (cleanedStr[i] === '{') {
       let openBraces = 1;
       let closeBraces = 0;
       let j = i + 1;
 
       // Track braces as we go to detect potential JSON objects
-      while (j < Math.min(i + maxJsonLength, str.length) && openBraces > closeBraces) {
-        if (str[j] === '{') {
+      while (j < Math.min(i + maxJsonLength, cleanedStr.length) && openBraces > closeBraces) {
+        if (cleanedStr[j] === '{') {
           openBraces++;
         }
-        if (str[j] === '}') {
+        if (cleanedStr[j] === '}') {
           closeBraces++;
         }
         j++;
 
         // When we have a potential complete object OR we've reached the end
-        if (openBraces === closeBraces || j === str.length || j === i + maxJsonLength) {
+        if (openBraces === closeBraces || j === cleanedStr.length || j === i + maxJsonLength) {
           try {
             // If we're at the end but braces don't match, add missing closing braces
-            let potentialJson = str.slice(i, j);
+            let potentialJson = cleanedStr.slice(i, j);
             if (openBraces > closeBraces) {
               potentialJson += '}'.repeat(openBraces - closeBraces);
             }

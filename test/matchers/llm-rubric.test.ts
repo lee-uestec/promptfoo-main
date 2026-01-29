@@ -237,7 +237,7 @@ describe('matchesLlmRubric', () => {
     await expect(matchesLlmRubric(expected, output, options)).resolves.toEqual({
       pass: false,
       score: 0,
-      reason: 'Could not extract JSON from llm-rubric response',
+      reason: expect.stringContaining('Could not extract JSON from llm-rubric response'),
       tokensUsed: {
         total: 10,
         prompt: 5,
@@ -266,7 +266,7 @@ describe('matchesLlmRubric', () => {
     await expect(matchesLlmRubric(expected, output, options)).resolves.toEqual({
       pass: false,
       score: 0,
-      reason: 'Could not extract JSON from llm-rubric response',
+      reason: expect.stringContaining('Could not extract JSON from llm-rubric response'),
       tokensUsed: {
         total: 10,
         prompt: 5,
@@ -296,7 +296,7 @@ describe('matchesLlmRubric', () => {
     await expect(matchesLlmRubric(expected, output, options)).resolves.toEqual({
       pass: false,
       score: 0,
-      reason: 'Could not extract JSON from llm-rubric response',
+      reason: expect.stringContaining('Could not extract JSON from llm-rubric response'),
       tokensUsed: {
         total: 10,
         prompt: 5,
@@ -325,7 +325,7 @@ describe('matchesLlmRubric', () => {
     await expect(matchesLlmRubric(expected, output, options)).resolves.toEqual({
       pass: false,
       score: 0,
-      reason: 'Could not extract JSON from llm-rubric response',
+      reason: expect.stringContaining('Could not extract JSON from llm-rubric response'),
       tokensUsed: {
         total: 10,
         prompt: 5,
@@ -354,7 +354,7 @@ describe('matchesLlmRubric', () => {
     await expect(matchesLlmRubric(expected, output, options)).resolves.toEqual({
       pass: false,
       score: 0,
-      reason: 'Could not extract JSON from llm-rubric response',
+      reason: expect.stringContaining('Could not extract JSON from llm-rubric response'),
       tokensUsed: {
         total: 10,
         prompt: 5,

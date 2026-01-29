@@ -1,28 +1,28 @@
 {
-  "evalId": "eval-8xR-2026-01-28T06:34:50",
+  "evalId": "eval-Hj8-2026-01-29T07:55:34",
   "results": {
     "version": 3,
-    "timestamp": "2026-01-28T06:34:50.487Z",
+    "timestamp": "2026-01-29T07:55:34.366Z",
     "prompts": [
       {
         "id": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
         "raw": "{{prompt}}",
         "label": "{{prompt}}",
-        "provider": "file://tests/promptfoo-provider.js",
+        "provider": "file://promptfoo-provider.js",
         "metrics": {
-          "score": 3.5,
-          "testPassCount": 3,
+          "score": 0,
+          "testPassCount": 0,
           "testFailCount": 1,
-          "testErrorCount": 2,
-          "assertPassCount": 4,
+          "testErrorCount": 0,
+          "assertPassCount": 2,
           "assertFailCount": 1,
-          "totalLatencyMs": 823215,
+          "totalLatencyMs": 818169,
           "tokenUsage": {
             "prompt": 0,
             "completion": 0,
             "cached": 0,
             "total": 0,
-            "numRequests": 4,
+            "numRequests": 1,
             "completionDetails": {
               "reasoning": 0,
               "acceptedPrediction": 0,
@@ -30,8 +30,8 @@
             },
             "assertions": {
               "total": 0,
-              "prompt": 0,
-              "completion": 0,
+              "prompt": 1886,
+              "completion": 164,
               "cached": 0,
               "numRequests": 0,
               "completionDetails": {
@@ -50,29 +50,118 @@
     "results": [
       {
         "cost": 0,
-        "error": "Error: API key is not set. Set the OPENAI_API_KEY environment variable or add `apiKey` to the provider config.\n    at OpenAiChatCompletionProvider.callApi (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/openai/chat.ts:1:7524)\n    at callProviderWithContext (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:1:2830)\n    at matchesLlmRubric (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:10704)\n    at runAssertion (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:11665)\n    at file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:12947",
-        "gradingResult": null,
-        "id": "ecbcf7df-00fd-4fe9-b40c-7b2bcae954e1",
-        "latencyMs": 48736,
+        "error": "Scoring function error: assertion scoring function must return a GradingResult",
+        "gradingResult": {
+          "pass": false,
+          "score": 0,
+          "reason": "Scoring function error: assertion scoring function must return a GradingResult",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 0,
+            "prompt": 1886,
+            "completion": 164,
+            "cached": 0,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success === true ? 1 : 0;\n"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "javascript",
+                "value": "// 这个断言会调用 code-test-grader 来运行实际测试\nconst result = typeof output === 'string' ? JSON.parse(output) : output;\n\n// 传递必要信息给 grader\nif (!result.success) {\n  return 0;\n}\n\n// 返回 1 表示可以进行代码测试\n// 实际的测试评分会通过 code-test-grader.js 完成\nreturn 1;\n",
+                "provider": "file://../tests/code-test-grader.js"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "生成的 Controller 应该：\n1. 符合 Spring Boot REST 规范，使用正确的注解\n2. 包含完整的包声明和必要的 import 语句\n3. 使用项目统一的响应格式\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释\n7. 方法参数使用了合适的验证注解\n"
+              },
+              "pass": false,
+              "score": 0,
+              "reason": "输出中没有展示完整的Controller代码实现，只是提供了一个任务完成的总结。虽然总结中提到了创建了ModelInfoController并实现了REST接口，但没有展示实际代码，无法评估其是否符合Spring Boot REST规范、包含完整包声明、使用正确注解、代码风格和Javadoc注释等具体要求。总结中提到了使用统一响应格式和详细日志记录，但没有代码证据支持。",
+              "tokensUsed": {
+                "total": 0,
+                "prompt": 1886,
+                "completion": 164,
+                "cached": 0,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test.\\n\\nCRITICAL: You MUST respond with ONLY a valid JSON object. Do not include any explanatory text, markdown formatting, or code blocks. Your entire response must be parseable as JSON.\\n\\nRequired JSON structure:\\n{\\n  \\\"reason\\\": \\\"string explaining your decision\\\",\\n  \\\"pass\\\": boolean (true or false),\\n  \\\"score\\\": number (0.0 to 1.0)\\n}\\n\\nRules:\\n- Output ONLY the JSON object, nothing else\\n- Do NOT wrap the JSON in markdown code blocks\\n- Do NOT add any text before or after the JSON\\n- The \\\"pass\\\" field must be a boolean (true/false), not a string\\n- The \\\"score\\\" field must be a number between 0.0 and 1.0\\n- The \\\"reason\\\" field should be a concise explanation\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\\n\\nRemember: Output ONLY the JSON object. No additional text or formatting.\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"success\\\":true,\\\"content\\\":\\\"## ✅ 任务完成!\\\\n\\\\n我已成功完成 ModelInfoController 的创建和代码提交。以下是完整的实施总结:\\\\n\\\\n### 📋 实施内容\\\\n\\\\n#### 1. **创建的文件** (4个)\\\\n- ✅ `ModelInfoVO.java` - 模型信息视图对象\\\\n- ✅ `ModelInfoService.java` - 模型信息服务接口\\\\n- ✅ `ModelInfoServiceImpl.java` - 模型信息服务实现类\\\\n- ✅ `ModelInfoController.java` - REST Controller\\\\n\\\\n#### 2. **提供的接口**\\\\n- **GET /api/models** - 获取所有可用模型列表\\\\n- **GET /api/models/{modelName}** - 获取指定模型详情\\\\n\\\\n#### 3. **技术亮点**\\\\n- 🚀 **静态缓存优化**: 应用启动时初始化,避免重复构建\\\\n- 🚀 **O(1) 快速查询**: 使用 HashMap 索引\\\\n- 🚀 **聚合多源模型**: 整合 GPT、Azure、AIT、Image 等枚举\\\\n- 🚀 **不区分大小写**: 查询时自动转小写\\\\n- 🚀 **完善的参数校验**: 非空检查、长度限制\\\\n- 🚀 **详细的日志记录**: 入口、成功、失败、告警四级日志\\\\n- 🚀 **统一响应格式**: 使用 Message<T> 包装\\\\n\\\\n### 📦 Git 提交信息\\\\n- **分支**: `feat/codelink/12999/model-info-api`\\\\n- **提交**: `[需求][12999] 新增模型信息查询REST接口`\\\\n- **提交哈希**: `6a053dd4e`\\\\n- **变更统计**: 4 files changed, 281 insertions(+)\\\\n\\\\n### 🔗 相关链接\\\\n- **GitLab MR 列表**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests\\\\n- **创建 MR 链接**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests/new?merge_request%5Bsource_branch%5D=feat%2Fcodelink%2F12999%2Fmodel-info-api\\\\n\\\\n### 📝 使用示例\\\\n```bash\\\\n# 获取所有模型列表\\\\ncurl http://localhost:8080/api/models\\\\n\\\\n# 获取指定模型详情\\\\ncurl http://localhost:8080/api/models/gpt-4\\\\n\\\\n# 响应格式\\\\n{\\\\n  \\\\\\\"errno\\\\\\\": 0,\\\\n  \\\\\\\"error\\\\\\\": \\\\\\\"success\\\\\\\",\\\\n  \\\\\\\"data\\\\\\\": [\\\\n    {\\\\n      \\\\\\\"modelName\\\\\\\": \\\\\\\"gpt-4\\\\\\\",\\\\n      \\\\\\\"modelType\\\\\\\": \\\\\\\"chat\\\\\\\",\\\\n      \\\\\\\"provider\\\\\\\": \\\\\\\"openai\\\\\\\",\\\\n      \\\\\\\"description\\\\\\\": \\\\\\\"GPT 系列模型: gpt-4\\\\\\\"\\\\n    }\\\\n  ],\\\\n  \\\\\\\"requestId\\\\\\\": \\\\\\\"xxx-xxx-xxx\\\\\\\"\\\\n}\\\\n```\\\\n\\\\n所有代码已成功提交到 GitLab,请访问上述链接查看或创建 Merge Request!\\\",\\\"sessionId\\\":\\\"8d0ae05c-9ac7-41b1-b303-da8e22f5a362\\\"}\\n</Output>\\n<Rubric>\\n生成的 Controller 应该：\\n1. 符合 Spring Boot REST 规范，使用正确的注解\\n2. 包含完整的包声明和必要的 import 语句\\n3. 使用项目统一的响应格式\\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\\n5. 代码风格符合阿里巴巴 Java 开发规范\\n6. 有清晰的 Javadoc 注释\\n7. 方法参数使用了合适的验证注解\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "4db0373c-b381-4744-a0cb-897e995a80c2",
+        "latencyMs": 818169,
         "namedScores": {},
         "prompt": {
-          "raw": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数",
+          "raw": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录",
           "label": "{{prompt}}",
-          "config": {}
+          "config": {
+            "provider": "file://custom-llm-grader.js"
+          }
         },
         "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
         "promptIdx": 0,
         "provider": {
-          "id": "file://tests/promptfoo-provider.js",
+          "id": "file://promptfoo-provider.js",
           "label": ""
+        },
+        "response": {
+          "output": "{\n  \"success\": true,\n  \"content\": \"## ✅ 任务完成!\\n\\n我已成功完成 ModelInfoController 的创建和代码提交。以下是完整的实施总结:\\n\\n### 📋 实施内容\\n\\n#### 1. **创建的文件** (4个)\\n- ✅ `ModelInfoVO.java` - 模型信息视图对象\\n- ✅ `ModelInfoService.java` - 模型信息服务接口\\n- ✅ `ModelInfoServiceImpl.java` - 模型信息服务实现类\\n- ✅ `ModelInfoController.java` - REST Controller\\n\\n#### 2. **提供的接口**\\n- **GET /api/models** - 获取所有可用模型列表\\n- **GET /api/models/{modelName}** - 获取指定模型详情\\n\\n#### 3. **技术亮点**\\n- 🚀 **静态缓存优化**: 应用启动时初始化,避免重复构建\\n- 🚀 **O(1) 快速查询**: 使用 HashMap 索引\\n- 🚀 **聚合多源模型**: 整合 GPT、Azure、AIT、Image 等枚举\\n- 🚀 **不区分大小写**: 查询时自动转小写\\n- 🚀 **完善的参数校验**: 非空检查、长度限制\\n- 🚀 **详细的日志记录**: 入口、成功、失败、告警四级日志\\n- 🚀 **统一响应格式**: 使用 Message<T> 包装\\n\\n### 📦 Git 提交信息\\n- **分支**: `feat/codelink/12999/model-info-api`\\n- **提交**: `[需求][12999] 新增模型信息查询REST接口`\\n- **提交哈希**: `6a053dd4e`\\n- **变更统计**: 4 files changed, 281 insertions(+)\\n\\n### 🔗 相关链接\\n- **GitLab MR 列表**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests\\n- **创建 MR 链接**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests/new?merge_request%5Bsource_branch%5D=feat%2Fcodelink%2F12999%2Fmodel-info-api\\n\\n### 📝 使用示例\\n```bash\\n# 获取所有模型列表\\ncurl http://localhost:8080/api/models\\n\\n# 获取指定模型详情\\ncurl http://localhost:8080/api/models/gpt-4\\n\\n# 响应格式\\n{\\n  \\\"errno\\\": 0,\\n  \\\"error\\\": \\\"success\\\",\\n  \\\"data\\\": [\\n    {\\n      \\\"modelName\\\": \\\"gpt-4\\\",\\n      \\\"modelType\\\": \\\"chat\\\",\\n      \\\"provider\\\": \\\"openai\\\",\\n      \\\"description\\\": \\\"GPT 系列模型: gpt-4\\\"\\n    }\\n  ],\\n  \\\"requestId\\\": \\\"xxx-xxx-xxx\\\"\\n}\\n```\\n\\n所有代码已成功提交到 GitLab,请访问上述链接查看或创建 Merge Request!\",\n  \"sessionId\": \"8d0ae05c-9ac7-41b1-b303-da8e22f5a362\"\n}",
+          "tokenUsage": {
+            "total": 0,
+            "prompt": 0,
+            "completion": 0
+          },
+          "cost": 0,
+          "latencyMs": 818169,
+          "cached": false,
+          "metadata": {
+            "success": true,
+            "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362",
+            "filesCreated": 0,
+            "filesModified": 0,
+            "metrics": {
+              "totalMessages": 0,
+              "totalToolCalls": 0,
+              "toolBreakdown": {},
+              "phases": [
+                {
+                  "name": "init",
+                  "duration": "ongoing"
+                }
+              ],
+              "capturedLogsCount": 239
+            }
+          }
         },
         "score": 0,
         "success": false,
         "testCase": {
-          "description": "简单功能 - 创建 Hello World 函数",
+          "description": "Java-创建 REST Controller",
           "vars": {
-            "projectPath": "./test-projects/simple",
-            "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
+            "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+            "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n",
+            "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362"
           },
           "assert": [
             {
@@ -80,463 +169,58 @@
               "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success === true ? 1 : 0;\n"
             },
             {
+              "type": "javascript",
+              "value": "// 这个断言会调用 code-test-grader 来运行实际测试\nconst result = typeof output === 'string' ? JSON.parse(output) : output;\n\n// 传递必要信息给 grader\nif (!result.success) {\n  return 0;\n}\n\n// 返回 1 表示可以进行代码测试\n// 实际的测试评分会通过 code-test-grader.js 完成\nreturn 1;\n",
+              "provider": "file://../tests/code-test-grader.js"
+            },
+            {
               "type": "llm-rubric",
-              "value": "输出应该表明成功创建了一个包含 Hello World 函数的文件，\n并且代码应该是有效的 JavaScript 代码\n"
+              "value": "生成的 Controller 应该：\n1. 符合 Spring Boot REST 规范，使用正确的注解\n2. 包含完整的包声明和必要的 import 语句\n3. 使用项目统一的响应格式\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释\n7. 方法参数使用了合适的验证注解\n"
             }
           ],
-          "options": {},
+          "options": {
+            "provider": "file://custom-llm-grader.js"
+          },
           "metadata": {}
         },
         "testIdx": 0,
         "vars": {
-          "projectPath": "./test-projects/simple",
-          "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
-        },
-        "metadata": {
-          "errorContext": {
-            "providerId": "file://tests/promptfoo-provider.js",
-            "providerLabel": ""
-          }
-        },
-        "failureReason": 2
-      },
-      {
-        "cost": 0,
-        "gradingResult": {
-          "pass": true,
-          "score": 1,
-          "reason": "All assertions passed",
-          "namedScores": {},
-          "tokensUsed": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0,
-            "cached": 0,
-            "numRequests": 0
-          },
-          "componentResults": [
-            {
-              "pass": true,
-              "score": 1,
-              "reason": "Assertion passed",
-              "assertion": {
-                "type": "javascript",
-                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-              }
-            }
-          ]
-        },
-        "id": "4eeeafff-8d8c-43e3-a9d8-f9d1ed916cbf",
-        "latencyMs": 455661,
-        "namedScores": {},
-        "prompt": {
-          "raw": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
-          "label": "{{prompt}}",
-          "config": {}
-        },
-        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
-        "promptIdx": 0,
-        "provider": {
-          "id": "file://tests/promptfoo-provider.js",
-          "label": ""
-        },
-        "response": {
-          "output": "{\n  \"success\": true,\n  \"content\": \"完美!代码已成功提交到本地仓库。\\n\\n## 总结\\n\\n由于提供的参数中 `git_url` 和 `email_prefix` 都是空的,我无法完成以下操作:\\n- 获取 git token\\n- 推送代码到远程仓库\\n- 创建 Merge Request\\n\\n但我已经成功完成了以下操作:\\n\\n✅ **已完成的操作:**\\n1. ✅ 创建并修改了 `app.js` 文件,实现了 greet 函数\\n2. ✅ 函数接受 `name` 参数并返回 `'Hello, {name}!'` 格式的字符串\\n3. ✅ 验证了代码功能正常(测试通过)\\n4. ✅ 创建了新分支: `feat/codelink/test-1769582142312/greet`\\n5. ✅ 提交了代码到本地仓库\\n6. ✅ 使用了符合规范的提交信息: `[紧急] 实现greet函数接受name参数并返回问候语`\\n\\n**提交信息:**\\n- 分支: `feat/codelink/test-1769582142312/greet`\\n- 提交: `2d6bdb8 [紧急] 实现greet函数接受name参数并返回问候语`\\n- 文件: `test-projects/modify/app.js`\\n\\n⚠️ **无法完成的操作:**\\n- 推送到远程仓库(因为 git_url 参数为空)\\n- 创建 Merge Request(因为缺少必要的参数)\\n\\n如果您需要推送代码并创建 MR,请提供以下信息:\\n- git_url: GitLab 仓库地址\\n- email_prefix: 邮箱前缀\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
-          "tokenUsage": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0
-          },
-          "cost": 0,
-          "latencyMs": 455661,
-          "cached": false,
-          "metadata": {
-            "success": true,
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-            "filesCreated": 0,
-            "filesModified": 0
-          }
-        },
-        "score": 1,
-        "success": true,
-        "testCase": {
-          "description": "代码修改 - 更新现有函数",
-          "vars": {
-            "projectPath": "./test-projects/modify",
-            "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-          },
-          "assert": [
-            {
-              "type": "javascript",
-              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-            }
-          ],
-          "options": {},
-          "metadata": {}
-        },
-        "testIdx": 1,
-        "vars": {
-          "projectPath": "./test-projects/modify",
-          "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'",
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
+          "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n",
+          "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362"
         },
         "metadata": {
           "success": true,
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
+          "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362",
           "filesCreated": 0,
           "filesModified": 0,
-          "_promptfooFileMetadata": {}
-        },
-        "failureReason": 0
-      },
-      {
-        "cost": 0,
-        "gradingResult": {
-          "pass": true,
-          "score": 1,
-          "reason": "All assertions passed",
-          "namedScores": {},
-          "tokensUsed": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0,
-            "cached": 0,
-            "numRequests": 0
-          },
-          "componentResults": [
-            {
-              "pass": true,
-              "score": 1,
-              "reason": "Assertion passed",
-              "assertion": {
-                "type": "javascript",
-                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
+          "metrics": {
+            "totalMessages": 0,
+            "totalToolCalls": 0,
+            "toolBreakdown": {},
+            "phases": [
+              {
+                "name": "init",
+                "duration": "ongoing"
               }
-            }
-          ]
-        },
-        "id": "8247a2c9-d119-4ada-af11-9b5d8f000bf3",
-        "latencyMs": 80243,
-        "namedScores": {},
-        "prompt": {
-          "raw": "读取不存在的文件 /nonexistent/file.js",
-          "label": "{{prompt}}",
-          "config": {}
-        },
-        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
-        "promptIdx": 0,
-        "provider": {
-          "id": "file://tests/promptfoo-provider.js",
-          "label": ""
-        },
-        "response": {
-          "output": "{\n  \"success\": true,\n  \"content\": \"文件 `/nonexistent/file.js` 不存在。\\n\\n这个路径下没有找到该文件。可能的原因有:\\n1. 文件路径不正确\\n2. 文件确实不存在\\n3. 文件名拼写错误\\n\\n你能提供一下:\\n- 正确的文件路径?\\n- 或者告诉我你想要查找的文件名,我可以帮你搜索一下?\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
-          "tokenUsage": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0
+            ],
+            "capturedLogsCount": 239
           },
-          "cost": 0,
-          "latencyMs": 80243,
-          "cached": false,
-          "metadata": {
-            "success": true,
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-            "filesCreated": 0,
-            "filesModified": 0
-          }
-        },
-        "score": 1,
-        "success": true,
-        "testCase": {
-          "description": "错误恢复 - 无效的文件路径",
-          "vars": {
-            "projectPath": "./test-projects/invalid",
-            "prompt": "读取不存在的文件 /nonexistent/file.js",
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-          },
-          "assert": [
-            {
-              "type": "javascript",
-              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
-            }
-          ],
-          "options": {},
-          "metadata": {}
-        },
-        "testIdx": 2,
-        "vars": {
-          "projectPath": "./test-projects/invalid",
-          "prompt": "读取不存在的文件 /nonexistent/file.js",
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-        },
-        "metadata": {
-          "success": true,
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-          "filesCreated": 0,
-          "filesModified": 0,
-          "_promptfooFileMetadata": {}
-        },
-        "failureReason": 0
-      },
-      {
-        "cost": 0,
-        "error": "Error: API key is not set. Set the OPENAI_API_KEY environment variable or add `apiKey` to the provider config.\n    at OpenAiChatCompletionProvider.callApi (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/providers/openai/chat.ts:1:7524)\n    at callProviderWithContext (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:1:2830)\n    at matchesLlmRubric (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/matchers.ts:3:10704)\n    at runAssertion (file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:11665)\n    at file:///Users/well_lee/WebstormProjects/promptfoo-main/src/assertions/index.ts:1:12947",
-        "gradingResult": null,
-        "id": "920e8efa-ae91-403e-8026-4b59d62980cb",
-        "latencyMs": 98165,
-        "namedScores": {},
-        "prompt": {
-          "raw": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件",
-          "label": "{{prompt}}",
-          "config": {}
-        },
-        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
-        "promptIdx": 0,
-        "provider": {
-          "id": "file://tests/promptfoo-provider.js",
-          "label": ""
-        },
-        "score": 0,
-        "success": false,
-        "testCase": {
-          "description": "复杂任务 - 创建多个相关文件",
-          "vars": {
-            "projectPath": "./test-projects/multi-file",
-            "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
-          },
-          "assert": [
-            {
-              "type": "javascript",
-              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-            },
-            {
-              "type": "llm-rubric",
-              "value": "输出应该显示成功创建了所有三个文件，\n并且文件之间应该有合理的引用关系\n"
-            }
-          ],
-          "options": {},
-          "metadata": {}
-        },
-        "testIdx": 3,
-        "vars": {
-          "projectPath": "./test-projects/multi-file",
-          "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
-        },
-        "metadata": {
-          "errorContext": {
-            "providerId": "file://tests/promptfoo-provider.js",
-            "providerLabel": ""
-          }
-        },
-        "failureReason": 2
-      },
-      {
-        "cost": 0,
-        "gradingResult": {
-          "pass": true,
-          "score": 1,
-          "reason": "All assertions passed",
-          "namedScores": {},
-          "tokensUsed": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0,
-            "cached": 0,
-            "numRequests": 0
-          },
-          "componentResults": [
-            {
-              "pass": true,
-              "score": 1,
-              "reason": "Assertion passed",
-              "assertion": {
-                "type": "javascript",
-                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-              }
-            }
-          ]
-        },
-        "id": "331f3220-a014-4c95-be0c-d58a1b813302",
-        "latencyMs": 53671,
-        "namedScores": {},
-        "prompt": {
-          "raw": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
-          "label": "{{prompt}}",
-          "config": {}
-        },
-        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
-        "promptIdx": 0,
-        "provider": {
-          "id": "file://tests/promptfoo-provider.js",
-          "label": ""
-        },
-        "response": {
-          "output": "{\n  \"success\": true,\n  \"content\": \"测试文件已删除完毕!\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
-          "tokenUsage": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0
-          },
-          "cost": 0,
-          "latencyMs": 53671,
-          "cached": false,
-          "metadata": {
-            "success": true,
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-            "filesCreated": 0,
-            "filesModified": 0
-          }
-        },
-        "score": 1,
-        "success": true,
-        "testCase": {
-          "description": "工具测试 - Bash 命令执行",
-          "vars": {
-            "projectPath": "./test-projects/bash-test",
-            "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-          },
-          "assert": [
-            {
-              "type": "javascript",
-              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-            }
-          ],
-          "options": {},
-          "metadata": {}
-        },
-        "testIdx": 4,
-        "vars": {
-          "projectPath": "./test-projects/bash-test",
-          "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容",
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-        },
-        "metadata": {
-          "success": true,
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-          "filesCreated": 0,
-          "filesModified": 0,
-          "_promptfooFileMetadata": {}
-        },
-        "failureReason": 0
-      },
-      {
-        "cost": 0,
-        "error": "Latency 86739ms is greater than threshold 30000ms",
-        "gradingResult": {
-          "pass": false,
-          "score": 0.5,
-          "reason": "Latency 86739ms is greater than threshold 30000ms",
-          "namedScores": {},
-          "tokensUsed": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0,
-            "cached": 0,
-            "numRequests": 0
-          },
-          "componentResults": [
-            {
-              "pass": false,
-              "score": 0,
-              "reason": "Latency 86739ms is greater than threshold 30000ms",
-              "assertion": {
-                "type": "latency",
-                "threshold": 30000
-              }
-            },
-            {
-              "pass": true,
-              "score": 1,
-              "reason": "Assertion passed",
-              "assertion": {
-                "type": "javascript",
-                "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-              }
-            }
-          ]
-        },
-        "id": "0319d164-c775-4d55-af6b-a23c84df4450",
-        "latencyMs": 86739,
-        "namedScores": {},
-        "prompt": {
-          "raw": "创建一个空的 test.js 文件",
-          "label": "{{prompt}}",
-          "config": {}
-        },
-        "promptId": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
-        "promptIdx": 0,
-        "provider": {
-          "id": "file://tests/promptfoo-provider.js",
-          "label": ""
-        },
-        "response": {
-          "output": "{\n  \"success\": true,\n  \"content\": \"已成功创建空的 test.js 文件，路径为：`/Users/well_lee/test.js`\",\n  \"sessionId\": \"01814761-6800-4f37-a1a5-14eed76c0e3d\"\n}",
-          "tokenUsage": {
-            "total": 0,
-            "prompt": 0,
-            "completion": 0
-          },
-          "cost": 0,
-          "latencyMs": 86739,
-          "cached": false,
-          "metadata": {
-            "success": true,
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-            "filesCreated": 0,
-            "filesModified": 0
-          }
-        },
-        "score": 0.5,
-        "success": false,
-        "testCase": {
-          "description": "性能测试 - 简单任务响应时间",
-          "vars": {
-            "projectPath": "./test-projects/perf",
-            "prompt": "创建一个空的 test.js 文件",
-            "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-          },
-          "assert": [
-            {
-              "type": "latency",
-              "threshold": 30000
-            },
-            {
-              "type": "javascript",
-              "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-            }
-          ],
-          "options": {},
-          "metadata": {}
-        },
-        "testIdx": 5,
-        "vars": {
-          "projectPath": "./test-projects/perf",
-          "prompt": "创建一个空的 test.js 文件",
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d"
-        },
-        "metadata": {
-          "success": true,
-          "sessionId": "01814761-6800-4f37-a1a5-14eed76c0e3d",
-          "filesCreated": 0,
-          "filesModified": 0,
           "_promptfooFileMetadata": {}
         },
         "failureReason": 1
       }
     ],
     "stats": {
-      "successes": 3,
+      "successes": 0,
       "failures": 1,
-      "errors": 2,
+      "errors": 0,
       "tokenUsage": {
         "prompt": 0,
         "completion": 0,
         "cached": 0,
         "total": 0,
-        "numRequests": 4,
+        "numRequests": 1,
         "completionDetails": {
           "reasoning": 0,
           "acceptedPrediction": 0,
@@ -544,8 +228,8 @@
         },
         "assertions": {
           "total": 0,
-          "prompt": 0,
-          "completion": 0,
+          "prompt": 1886,
+          "completion": 164,
           "cached": 0,
           "numRequests": 0,
           "completionDetails": {
@@ -555,7 +239,7 @@
           }
         }
       },
-      "durationMs": 826350
+      "durationMs": 825987
     }
   },
   "config": {
@@ -565,14 +249,14 @@
       "{{prompt}}"
     ],
     "providers": [
-      "file://tests/promptfoo-provider.js"
+      "file://promptfoo-provider.js"
     ],
     "tests": [
       {
-        "description": "简单功能 - 创建 Hello World 函数",
+        "description": "Java-创建 REST Controller",
         "vars": {
-          "projectPath": "./test-projects/simple",
-          "prompt": "创建一个简单的 hello.js 文件，包含一个返回 'Hello World' 的函数"
+          "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n"
         },
         "assert": [
           {
@@ -580,87 +264,28 @@
             "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success === true ? 1 : 0;\n"
           },
           {
-            "type": "llm-rubric",
-            "value": "输出应该表明成功创建了一个包含 Hello World 函数的文件，\n并且代码应该是有效的 JavaScript 代码\n"
-          }
-        ]
-      },
-      {
-        "description": "代码修改 - 更新现有函数",
-        "vars": {
-          "projectPath": "./test-projects/modify",
-          "prompt": "修改 app.js 中的 greet 函数，让它接受一个 name 参数并返回 'Hello, {name}!'"
-        },
-        "assert": [
-          {
             "type": "javascript",
-            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-          }
-        ]
-      },
-      {
-        "description": "错误恢复 - 无效的文件路径",
-        "vars": {
-          "projectPath": "./test-projects/invalid",
-          "prompt": "读取不存在的文件 /nonexistent/file.js"
-        },
-        "assert": [
-          {
-            "type": "javascript",
-            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\n// 检查是否包含错误信息或成功处理了错误\nreturn (result.error || result.content?.includes('不存在')) ? 1 : 0;\n"
-          }
-        ]
-      },
-      {
-        "description": "复杂任务 - 创建多个相关文件",
-        "vars": {
-          "projectPath": "./test-projects/multi-file",
-          "prompt": "创建一个简单的 Node.js 项目：\n1. index.js - 主入口文件\n2. utils.js - 工具函数文件\n3. package.json - 项目配置文件\n"
-        },
-        "assert": [
-          {
-            "type": "javascript",
-            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
+            "value": "// 这个断言会调用 code-test-grader 来运行实际测试\nconst result = typeof output === 'string' ? JSON.parse(output) : output;\n\n// 传递必要信息给 grader\nif (!result.success) {\n  return 0;\n}\n\n// 返回 1 表示可以进行代码测试\n// 实际的测试评分会通过 code-test-grader.js 完成\nreturn 1;\n",
+            "provider": "file://../tests/code-test-grader.js"
           },
           {
             "type": "llm-rubric",
-            "value": "输出应该显示成功创建了所有三个文件，\n并且文件之间应该有合理的引用关系\n"
+            "value": "生成的 Controller 应该：\n1. 符合 Spring Boot REST 规范，使用正确的注解\n2. 包含完整的包声明和必要的 import 语句\n3. 使用项目统一的响应格式\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释\n7. 方法参数使用了合适的验证注解\n"
           }
-        ]
-      },
-      {
-        "description": "工具测试 - Bash 命令执行",
-        "vars": {
-          "projectPath": "./test-projects/bash-test",
-          "prompt": "创建一个 test.txt 文件，然后使用 Bash 命令读取它的内容"
-        },
-        "assert": [
-          {
-            "type": "javascript",
-            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-          }
-        ]
-      },
-      {
-        "description": "性能测试 - 简单任务响应时间",
-        "vars": {
-          "projectPath": "./test-projects/perf",
-          "prompt": "创建一个空的 test.js 文件"
-        },
-        "assert": [
-          {
-            "type": "latency",
-            "threshold": 30000
-          },
-          {
-            "type": "javascript",
-            "value": "const result = typeof output === 'string' ? JSON.parse(output) : output;\nreturn result.success ? 1 : 0;\n"
-          }
-        ]
+        ],
+        "assertScoringFunction": "file://../tests/weighted-scoring-function.js"
       }
     ],
     "scenarios": [],
     "env": {},
+    "defaultTest": {
+      "options": {
+        "provider": "file://custom-llm-grader.js"
+      },
+      "vars": {},
+      "assert": [],
+      "metadata": {}
+    },
     "outputPath": [
       "./test-results/agent-eval-results.json"
     ],
@@ -669,7 +294,7 @@
     "evaluateOptions": {
       "maxConcurrency": 1,
       "repeat": 1,
-      "delay": 1000
+      "delay": 2000
     }
   },
   "shareableUrl": null,
@@ -678,7 +303,7 @@
     "nodeVersion": "v20.19.0",
     "platform": "darwin",
     "arch": "arm64",
-    "exportedAt": "2026-01-28T06:48:36.982Z",
-    "evaluationCreatedAt": "2026-01-28T06:34:50.487Z"
+    "exportedAt": "2026-01-29T08:09:20.425Z",
+    "evaluationCreatedAt": "2026-01-29T07:55:34.366Z"
   }
 }
