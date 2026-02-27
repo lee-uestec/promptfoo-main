@@ -1,8 +1,8 @@
 {
-  "evalId": "eval-Hj8-2026-01-29T07:55:34",
+  "evalId": "eval-V1U-2026-02-03T11:00:40",
   "results": {
     "version": 3,
-    "timestamp": "2026-01-29T07:55:34.366Z",
+    "timestamp": "2026-02-03T11:00:40.446Z",
     "prompts": [
       {
         "id": "effa18501e44aafd9bc42a2f64ffc9b6350f94025520ca2ed382f9bdc4b6e982",
@@ -16,7 +16,7 @@
           "testErrorCount": 0,
           "assertPassCount": 2,
           "assertFailCount": 1,
-          "totalLatencyMs": 818169,
+          "totalLatencyMs": 611965,
           "tokenUsage": {
             "prompt": 0,
             "completion": 0,
@@ -30,8 +30,8 @@
             },
             "assertions": {
               "total": 0,
-              "prompt": 1886,
-              "completion": 164,
+              "prompt": 1745,
+              "completion": 428,
               "cached": 0,
               "numRequests": 0,
               "completionDetails": {
@@ -58,8 +58,8 @@
           "namedScores": {},
           "tokensUsed": {
             "total": 0,
-            "prompt": 1886,
-            "completion": 164,
+            "prompt": 1745,
+            "completion": 428,
             "cached": 0,
             "numRequests": 0
           },
@@ -89,12 +89,12 @@
                 "value": "生成的 Controller 应该：\n1. 符合 Spring Boot REST 规范，使用正确的注解\n2. 包含完整的包声明和必要的 import 语句\n3. 使用项目统一的响应格式\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\n5. 代码风格符合阿里巴巴 Java 开发规范\n6. 有清晰的 Javadoc 注释\n7. 方法参数使用了合适的验证注解\n"
               },
               "pass": false,
-              "score": 0,
-              "reason": "输出中没有展示完整的Controller代码实现，只是提供了一个任务完成的总结。虽然总结中提到了创建了ModelInfoController并实现了REST接口，但没有展示实际代码，无法评估其是否符合Spring Boot REST规范、包含完整包声明、使用正确注解、代码风格和Javadoc注释等具体要求。总结中提到了使用统一响应格式和详细日志记录，但没有代码证据支持。",
+              "score": 0.3,
+              "reason": "输出内容是一个JSON格式的总结报告，描述了ModelInfoController的实现情况，但存在以下问题：",
               "tokensUsed": {
                 "total": 0,
-                "prompt": 1886,
-                "completion": 164,
+                "prompt": 1745,
+                "completion": 428,
                 "cached": 0,
                 "numRequests": 0,
                 "completionDetails": {
@@ -104,13 +104,13 @@
                 }
               },
               "metadata": {
-                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test.\\n\\nCRITICAL: You MUST respond with ONLY a valid JSON object. Do not include any explanatory text, markdown formatting, or code blocks. Your entire response must be parseable as JSON.\\n\\nRequired JSON structure:\\n{\\n  \\\"reason\\\": \\\"string explaining your decision\\\",\\n  \\\"pass\\\": boolean (true or false),\\n  \\\"score\\\": number (0.0 to 1.0)\\n}\\n\\nRules:\\n- Output ONLY the JSON object, nothing else\\n- Do NOT wrap the JSON in markdown code blocks\\n- Do NOT add any text before or after the JSON\\n- The \\\"pass\\\" field must be a boolean (true/false), not a string\\n- The \\\"score\\\" field must be a number between 0.0 and 1.0\\n- The \\\"reason\\\" field should be a concise explanation\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\\n\\nRemember: Output ONLY the JSON object. No additional text or formatting.\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"success\\\":true,\\\"content\\\":\\\"## ✅ 任务完成!\\\\n\\\\n我已成功完成 ModelInfoController 的创建和代码提交。以下是完整的实施总结:\\\\n\\\\n### 📋 实施内容\\\\n\\\\n#### 1. **创建的文件** (4个)\\\\n- ✅ `ModelInfoVO.java` - 模型信息视图对象\\\\n- ✅ `ModelInfoService.java` - 模型信息服务接口\\\\n- ✅ `ModelInfoServiceImpl.java` - 模型信息服务实现类\\\\n- ✅ `ModelInfoController.java` - REST Controller\\\\n\\\\n#### 2. **提供的接口**\\\\n- **GET /api/models** - 获取所有可用模型列表\\\\n- **GET /api/models/{modelName}** - 获取指定模型详情\\\\n\\\\n#### 3. **技术亮点**\\\\n- 🚀 **静态缓存优化**: 应用启动时初始化,避免重复构建\\\\n- 🚀 **O(1) 快速查询**: 使用 HashMap 索引\\\\n- 🚀 **聚合多源模型**: 整合 GPT、Azure、AIT、Image 等枚举\\\\n- 🚀 **不区分大小写**: 查询时自动转小写\\\\n- 🚀 **完善的参数校验**: 非空检查、长度限制\\\\n- 🚀 **详细的日志记录**: 入口、成功、失败、告警四级日志\\\\n- 🚀 **统一响应格式**: 使用 Message<T> 包装\\\\n\\\\n### 📦 Git 提交信息\\\\n- **分支**: `feat/codelink/12999/model-info-api`\\\\n- **提交**: `[需求][12999] 新增模型信息查询REST接口`\\\\n- **提交哈希**: `6a053dd4e`\\\\n- **变更统计**: 4 files changed, 281 insertions(+)\\\\n\\\\n### 🔗 相关链接\\\\n- **GitLab MR 列表**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests\\\\n- **创建 MR 链接**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests/new?merge_request%5Bsource_branch%5D=feat%2Fcodelink%2F12999%2Fmodel-info-api\\\\n\\\\n### 📝 使用示例\\\\n```bash\\\\n# 获取所有模型列表\\\\ncurl http://localhost:8080/api/models\\\\n\\\\n# 获取指定模型详情\\\\ncurl http://localhost:8080/api/models/gpt-4\\\\n\\\\n# 响应格式\\\\n{\\\\n  \\\\\\\"errno\\\\\\\": 0,\\\\n  \\\\\\\"error\\\\\\\": \\\\\\\"success\\\\\\\",\\\\n  \\\\\\\"data\\\\\\\": [\\\\n    {\\\\n      \\\\\\\"modelName\\\\\\\": \\\\\\\"gpt-4\\\\\\\",\\\\n      \\\\\\\"modelType\\\\\\\": \\\\\\\"chat\\\\\\\",\\\\n      \\\\\\\"provider\\\\\\\": \\\\\\\"openai\\\\\\\",\\\\n      \\\\\\\"description\\\\\\\": \\\\\\\"GPT 系列模型: gpt-4\\\\\\\"\\\\n    }\\\\n  ],\\\\n  \\\\\\\"requestId\\\\\\\": \\\\\\\"xxx-xxx-xxx\\\\\\\"\\\\n}\\\\n```\\\\n\\\\n所有代码已成功提交到 GitLab,请访问上述链接查看或创建 Merge Request!\\\",\\\"sessionId\\\":\\\"8d0ae05c-9ac7-41b1-b303-da8e22f5a362\\\"}\\n</Output>\\n<Rubric>\\n生成的 Controller 应该：\\n1. 符合 Spring Boot REST 规范，使用正确的注解\\n2. 包含完整的包声明和必要的 import 语句\\n3. 使用项目统一的响应格式\\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\\n5. 代码风格符合阿里巴巴 Java 开发规范\\n6. 有清晰的 Javadoc 注释\\n7. 方法参数使用了合适的验证注解\\n\\n</Rubric>\"}]"
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test.\\n\\nCRITICAL: You MUST respond with ONLY a valid JSON object. Do not include any explanatory text, markdown formatting, or code blocks. Your entire response must be parseable as JSON.\\n\\nRequired JSON structure:\\n{\\n  \\\"reason\\\": \\\"string explaining your decision\\\",\\n  \\\"pass\\\": boolean (true or false),\\n  \\\"score\\\": number (0.0 to 1.0)\\n}\\n\\nRules:\\n- Output ONLY the JSON object, nothing else\\n- Do NOT wrap the JSON in markdown code blocks\\n- Do NOT add any text before or after the JSON\\n- The \\\"pass\\\" field must be a boolean (true/false), not a string\\n- The \\\"score\\\" field must be a number between 0.0 and 1.0\\n- The \\\"reason\\\" field should be a concise explanation\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\\n\\nRemember: Output ONLY the JSON object. No additional text or formatting.\"},{\"role\":\"user\",\"content\":\"<Output>\\n{\\\"success\\\":true,\\\"content\\\":\\\"完美!ModelInfoController 的实现已经全部完成。让我为您总结一下:\\\\n\\\\n## 📋 实现总结\\\\n\\\\n我已成功在 gpt-api-start 模块中创建了 ModelInfoController 及其相关组件:\\\\n\\\\n### ✅ 已创建的文件\\\\n\\\\n1. **ModelInfoVO.java** - 模型信息视图对象\\\\n   - 路径: `gpt-api-model/src/main/java/com/ke/efficiency/gpt/model/vo/`\\\\n   - 包含: modelName, alias, description, visionSupported, reasonerSupported, modelType\\\\n\\\\n2. **ModelListVO.java** - 模型列表响应对象\\\\n   - 路径: `gpt-api-model/src/main/java/com/ke/efficiency/gpt/model/vo/`\\\\n   - 包含: total, models\\\\n\\\\n3. **ModelInfoService.java** - Service接口\\\\n   - 路径: `gpt-api-service/src/main/java/com/ke/efficiency/gpt/service/`\\\\n   - 方法: getAllModels(), getModelByName()\\\\n\\\\n4. **ModelInfoServiceImpl.java** - Service实现\\\\n   - 路径: `gpt-api-service/src/main/java/com/ke/efficiency/gpt/service/impl/`\\\\n   - 整合了 GptModelEnum, ImageModelResolver, ReasonerModelResolver, ModelAliasResolver\\\\n   - 实现了模型查询、转换和类型判断逻辑\\\\n\\\\n5. **ModelInfoController.java** - REST Controller\\\\n   - 路径: `gpt-api-start/src/main/java/com/ke/efficiency/gpt/controller/`\\\\n   - 端点: \\\\n     - `GET /api/models` - 获取所有模型列表\\\\n     - `GET /api/models/{modelName}` - 获取指定模型详情\\\\n\\\\n### 🎯 功能特性\\\\n\\\\n- ✅ 统一响应格式 (Message<T>)\\\\n- ✅ 完整的日志记录 (@Slf4j)\\\\n- ✅ 异常处理 (BusinessException)\\\\n- ✅ 模型能力标识 (vision, reasoner)\\\\n- ✅ 模型别名解析\\\\n- ✅ 模型类型分类 (chat/embedding/image-generation/multimodal-chat)\\\\n\\\\n### 📝 技术规范\\\\n\\\\n- 遵循项目分层架构 (Controller → Service → Model)\\\\n- 使用 Lombok 注解简化代码\\\\n- 使用 Spring Boot 标准注解\\\\n- 代码风格与项目现有代码完全一致\\\\n\\\\n代码已通过静态验证,所有依赖类均存在,语法结构正确。由于Maven仓库配置限制无法进行完整编译,但代码结构和逻辑都是正确的,启动项目后即可使用这些接口!\\\",\\\"sessionId\\\":\\\"c2cff32b-3683-47d2-9090-ba3b91d327a7\\\"}\\n</Output>\\n<Rubric>\\n生成的 Controller 应该：\\n1. 符合 Spring Boot REST 规范，使用正确的注解\\n2. 包含完整的包声明和必要的 import 语句\\n3. 使用项目统一的响应格式\\n4. 包含适当的日志记录（使用 Slf4j 或 Log4j）\\n5. 代码风格符合阿里巴巴 Java 开发规范\\n6. 有清晰的 Javadoc 注释\\n7. 方法参数使用了合适的验证注解\\n\\n</Rubric>\"}]"
               }
             }
           ]
         },
-        "id": "4db0373c-b381-4744-a0cb-897e995a80c2",
-        "latencyMs": 818169,
+        "id": "8b170193-5f19-4ca1-8721-dfa96d9d5699",
+        "latencyMs": 611965,
         "namedScores": {},
         "prompt": {
           "raw": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录",
@@ -126,18 +126,18 @@
           "label": ""
         },
         "response": {
-          "output": "{\n  \"success\": true,\n  \"content\": \"## ✅ 任务完成!\\n\\n我已成功完成 ModelInfoController 的创建和代码提交。以下是完整的实施总结:\\n\\n### 📋 实施内容\\n\\n#### 1. **创建的文件** (4个)\\n- ✅ `ModelInfoVO.java` - 模型信息视图对象\\n- ✅ `ModelInfoService.java` - 模型信息服务接口\\n- ✅ `ModelInfoServiceImpl.java` - 模型信息服务实现类\\n- ✅ `ModelInfoController.java` - REST Controller\\n\\n#### 2. **提供的接口**\\n- **GET /api/models** - 获取所有可用模型列表\\n- **GET /api/models/{modelName}** - 获取指定模型详情\\n\\n#### 3. **技术亮点**\\n- 🚀 **静态缓存优化**: 应用启动时初始化,避免重复构建\\n- 🚀 **O(1) 快速查询**: 使用 HashMap 索引\\n- 🚀 **聚合多源模型**: 整合 GPT、Azure、AIT、Image 等枚举\\n- 🚀 **不区分大小写**: 查询时自动转小写\\n- 🚀 **完善的参数校验**: 非空检查、长度限制\\n- 🚀 **详细的日志记录**: 入口、成功、失败、告警四级日志\\n- 🚀 **统一响应格式**: 使用 Message<T> 包装\\n\\n### 📦 Git 提交信息\\n- **分支**: `feat/codelink/12999/model-info-api`\\n- **提交**: `[需求][12999] 新增模型信息查询REST接口`\\n- **提交哈希**: `6a053dd4e`\\n- **变更统计**: 4 files changed, 281 insertions(+)\\n\\n### 🔗 相关链接\\n- **GitLab MR 列表**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests\\n- **创建 MR 链接**: https://git.lianjia.com/ke-efficiency/gpt-api/-/merge_requests/new?merge_request%5Bsource_branch%5D=feat%2Fcodelink%2F12999%2Fmodel-info-api\\n\\n### 📝 使用示例\\n```bash\\n# 获取所有模型列表\\ncurl http://localhost:8080/api/models\\n\\n# 获取指定模型详情\\ncurl http://localhost:8080/api/models/gpt-4\\n\\n# 响应格式\\n{\\n  \\\"errno\\\": 0,\\n  \\\"error\\\": \\\"success\\\",\\n  \\\"data\\\": [\\n    {\\n      \\\"modelName\\\": \\\"gpt-4\\\",\\n      \\\"modelType\\\": \\\"chat\\\",\\n      \\\"provider\\\": \\\"openai\\\",\\n      \\\"description\\\": \\\"GPT 系列模型: gpt-4\\\"\\n    }\\n  ],\\n  \\\"requestId\\\": \\\"xxx-xxx-xxx\\\"\\n}\\n```\\n\\n所有代码已成功提交到 GitLab,请访问上述链接查看或创建 Merge Request!\",\n  \"sessionId\": \"8d0ae05c-9ac7-41b1-b303-da8e22f5a362\"\n}",
+          "output": "{\n  \"success\": true,\n  \"content\": \"完美!ModelInfoController 的实现已经全部完成。让我为您总结一下:\\n\\n## 📋 实现总结\\n\\n我已成功在 gpt-api-start 模块中创建了 ModelInfoController 及其相关组件:\\n\\n### ✅ 已创建的文件\\n\\n1. **ModelInfoVO.java** - 模型信息视图对象\\n   - 路径: `gpt-api-model/src/main/java/com/ke/efficiency/gpt/model/vo/`\\n   - 包含: modelName, alias, description, visionSupported, reasonerSupported, modelType\\n\\n2. **ModelListVO.java** - 模型列表响应对象\\n   - 路径: `gpt-api-model/src/main/java/com/ke/efficiency/gpt/model/vo/`\\n   - 包含: total, models\\n\\n3. **ModelInfoService.java** - Service接口\\n   - 路径: `gpt-api-service/src/main/java/com/ke/efficiency/gpt/service/`\\n   - 方法: getAllModels(), getModelByName()\\n\\n4. **ModelInfoServiceImpl.java** - Service实现\\n   - 路径: `gpt-api-service/src/main/java/com/ke/efficiency/gpt/service/impl/`\\n   - 整合了 GptModelEnum, ImageModelResolver, ReasonerModelResolver, ModelAliasResolver\\n   - 实现了模型查询、转换和类型判断逻辑\\n\\n5. **ModelInfoController.java** - REST Controller\\n   - 路径: `gpt-api-start/src/main/java/com/ke/efficiency/gpt/controller/`\\n   - 端点: \\n     - `GET /api/models` - 获取所有模型列表\\n     - `GET /api/models/{modelName}` - 获取指定模型详情\\n\\n### 🎯 功能特性\\n\\n- ✅ 统一响应格式 (Message<T>)\\n- ✅ 完整的日志记录 (@Slf4j)\\n- ✅ 异常处理 (BusinessException)\\n- ✅ 模型能力标识 (vision, reasoner)\\n- ✅ 模型别名解析\\n- ✅ 模型类型分类 (chat/embedding/image-generation/multimodal-chat)\\n\\n### 📝 技术规范\\n\\n- 遵循项目分层架构 (Controller → Service → Model)\\n- 使用 Lombok 注解简化代码\\n- 使用 Spring Boot 标准注解\\n- 代码风格与项目现有代码完全一致\\n\\n代码已通过静态验证,所有依赖类均存在,语法结构正确。由于Maven仓库配置限制无法进行完整编译,但代码结构和逻辑都是正确的,启动项目后即可使用这些接口!\",\n  \"sessionId\": \"c2cff32b-3683-47d2-9090-ba3b91d327a7\"\n}",
           "tokenUsage": {
             "total": 0,
             "prompt": 0,
             "completion": 0
           },
           "cost": 0,
-          "latencyMs": 818169,
+          "latencyMs": 611965,
           "cached": false,
           "metadata": {
             "success": true,
-            "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362",
+            "sessionId": "c2cff32b-3683-47d2-9090-ba3b91d327a7",
             "filesCreated": 0,
             "filesModified": 0,
             "metrics": {
@@ -150,7 +150,7 @@
                   "duration": "ongoing"
                 }
               ],
-              "capturedLogsCount": 239
+              "capturedLogsCount": 394
             }
           }
         },
@@ -160,8 +160,12 @@
           "description": "Java-创建 REST Controller",
           "vars": {
             "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+            "taskId": "13001",
+            "env": "dev",
+            "testIndex": 0,
+            "label": "java-rest-controller",
             "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n",
-            "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362"
+            "sessionId": "c2cff32b-3683-47d2-9090-ba3b91d327a7"
           },
           "assert": [
             {
@@ -181,17 +185,26 @@
           "options": {
             "provider": "file://custom-llm-grader.js"
           },
-          "metadata": {}
+          "metadata": {
+            "tracingEnabled": true,
+            "evaluationId": "eval-V1U-2026-02-03T11:00:40"
+          }
         },
         "testIdx": 0,
         "vars": {
           "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "taskId": "13001",
+          "env": "dev",
+          "testIndex": 0,
+          "label": "java-rest-controller",
           "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n",
-          "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362"
+          "sessionId": "c2cff32b-3683-47d2-9090-ba3b91d327a7"
         },
         "metadata": {
+          "tracingEnabled": true,
+          "evaluationId": "eval-V1U-2026-02-03T11:00:40",
           "success": true,
-          "sessionId": "8d0ae05c-9ac7-41b1-b303-da8e22f5a362",
+          "sessionId": "c2cff32b-3683-47d2-9090-ba3b91d327a7",
           "filesCreated": 0,
           "filesModified": 0,
           "metrics": {
@@ -204,7 +217,7 @@
                 "duration": "ongoing"
               }
             ],
-            "capturedLogsCount": 239
+            "capturedLogsCount": 394
           },
           "_promptfooFileMetadata": {}
         },
@@ -228,8 +241,8 @@
         },
         "assertions": {
           "total": 0,
-          "prompt": 1886,
-          "completion": 164,
+          "prompt": 1745,
+          "completion": 428,
           "cached": 0,
           "numRequests": 0,
           "completionDetails": {
@@ -239,7 +252,7 @@
           }
         }
       },
-      "durationMs": 825987
+      "durationMs": 625606
     }
   },
   "config": {
@@ -256,6 +269,10 @@
         "description": "Java-创建 REST Controller",
         "vars": {
           "projectPath": "/Users/well_lee/IdeaProjects/gpt-api",
+          "taskId": "13001",
+          "env": "dev",
+          "testIndex": 0,
+          "label": "java-rest-controller",
           "prompt": "在 gpt-api-start 模块中创建一个新的 REST Controller：\n- 包名：com.ke.efficiency.gpt.controller\n- 类名：ModelInfoController\n- 功能：提供模型信息查询接口\n- 端点：\n  - GET /api/models - 获取所有可用模型列表\n  - GET /api/models/{modelName} - 获取指定模型详情\n- 使用 Spring Boot 注解：@RestController, @RequestMapping, @GetMapping\n- 返回统一响应格式（使用项目中的响应包装类）\n- 添加适当的日志记录\n"
         },
         "assert": [
@@ -291,6 +308,14 @@
     ],
     "extensions": [],
     "metadata": {},
+    "tracing": {
+      "enabled": true,
+      "otlp": {
+        "http": {
+          "enabled": true
+        }
+      }
+    },
     "evaluateOptions": {
       "maxConcurrency": 1,
       "repeat": 1,
@@ -303,7 +328,7 @@
     "nodeVersion": "v20.19.0",
     "platform": "darwin",
     "arch": "arm64",
-    "exportedAt": "2026-01-29T08:09:20.425Z",
-    "evaluationCreatedAt": "2026-01-29T07:55:34.366Z"
+    "exportedAt": "2026-02-03T11:11:09.204Z",
+    "evaluationCreatedAt": "2026-02-03T11:00:40.446Z"
   }
 }
